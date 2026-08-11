@@ -1,0 +1,116 @@
+.create {
+  padding: 16px 14px calc(28px + var(--nav-h));
+  flex: 1;
+}
+
+.create__form {
+  background: var(--bg-raised);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.create__author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.create__avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.create__handle {
+  font-family: var(--font-meta);
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+.create__text {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.5;
+}
+
+.create__counter {
+  text-align: right;
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--ink-faint);
+  margin: 4px 2px 14px;
+}
+
+.create__upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 140px;
+  border: 2px dashed var(--line-strong);
+  border-radius: var(--radius-md);
+  color: var(--ink-faint);
+  font-family: var(--font-meta);
+  font-size: 12.5px;
+  margin-bottom: 18px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.create__upload:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.create__preview {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 18px;
+  aspect-ratio: 4 / 3;
+  background: var(--bg-sunken);
+}
+
+.create__preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.create__remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(20, 14, 10, 0.65);
+  color: #fff7ef;
+  font-family: var(--font-ui);
+  font-size: 12px;
+}
+
+.create__submit {
+  margin-bottom: 10px;
+}
+
+.create__note {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--ink-faint);
+  text-align: center;
+  margin: 0;
+  line-height: 1.5;
+}

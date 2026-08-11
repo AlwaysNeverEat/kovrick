@@ -1,0 +1,26 @@
+.app-shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.app-shell__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .app-shell {
+    flex-direction: row;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  .app-shell__main {
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+  }
+}
