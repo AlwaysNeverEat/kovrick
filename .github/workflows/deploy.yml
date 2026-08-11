@@ -19,6 +19,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Forces the Pages source to "GitHub Actions". Without this the legacy
+      # branch builder can stay enabled, serve the repo root as-is, and ship an
+      # index.html that points at /src/main.jsx — a blank page in the browser.
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -38,3 +44,20 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Verify the built site is what Pages serves
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          for attempt in 1 2 3 4 5; do
+            body=$(curl -sS --max-time 30 "$PAGE_URL" || true)
+            if printf '%s' "$body" | grep -q 'assets/index-'; then
+              echo "OK: serving the built bundle."
+              exit 0
+            fi
+            echo "Attempt $attempt: built assets not found yet, retrying..."
+            sleep $((attempt * 10))
+          done
+          echo "::error::$PAGE_URL is not serving the built bundle."
+          printf '%s' "$body" | head -40
+          exit 1
