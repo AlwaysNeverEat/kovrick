@@ -6,10 +6,11 @@
   .side-nav {
     display: flex;
     flex-direction: column;
-    gap: 28px;
-    width: 220px;
+    align-items: flex-start;
+    gap: 20px;
+    width: 200px;
     flex: none;
-    padding: 32px 20px;
+    padding: 20px 16px;
     position: sticky;
     top: 0;
     height: 100dvh;
@@ -18,21 +19,29 @@
   .side-nav__links {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 2px;
+    width: 100%;
   }
 
   .side-nav__link {
-    font-family: var(--font-ui);
-    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 15px;
     color: var(--ink-soft);
     text-decoration: none;
-    padding: 12px 14px;
-    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    border-radius: 999px;
+  }
+
+  .side-nav__link:hover {
+    background: var(--bg-elevated);
   }
 
   .side-nav__link.is-active {
-    color: var(--red-ink);
-    background: var(--red);
+    color: var(--ink);
   }
 
   .side-nav__footnote {

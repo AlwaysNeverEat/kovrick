@@ -10,7 +10,6 @@ export default function PostMedia({ image, nsfw, onInteract }) {
       <img src={image} alt="" loading="lazy" />
       {nsfw && !revealed && (
         <div className="nsfw-overlay">
-          <div className="nsfw-overlay__tape" />
           <span className="nsfw-overlay__badge">18+</span>
           <p className="nsfw-overlay__label">Возможен деликатный контент</p>
           <button

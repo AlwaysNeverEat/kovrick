@@ -10,6 +10,7 @@ export default function BottomNav() {
         to="/"
         end
         className={({ isActive }) => `bottom-nav__item${isActive ? " is-active" : ""}`}
+        aria-label="Лента"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path
@@ -19,23 +20,20 @@ export default function BottomNav() {
             strokeLinejoin="round"
           />
         </svg>
-        <span>Лента</span>
       </NavLink>
 
-      <NavLink to="/create" className="bottom-nav__item bottom-nav__item--create" aria-label="Создать пост">
-        <span className="bottom-nav__plus">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" />
-          </svg>
-        </span>
+      <NavLink to="/create" className="bottom-nav__item" aria-label="Создать пост">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+        </svg>
       </NavLink>
 
       <NavLink
         to={`/profile/${CURRENT_USERNAME}`}
         className={({ isActive }) => `bottom-nav__item${isActive ? " is-active" : ""}`}
+        aria-label="Профиль"
       >
         <img className="bottom-nav__avatar" src={avatarFor(CURRENT_USERNAME)} alt="" />
-        <span>Профиль</span>
       </NavLink>
     </nav>
   );

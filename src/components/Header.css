@@ -2,7 +2,9 @@
   position: sticky;
   top: 0;
   z-index: 20;
-  background: var(--bg-raised);
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
 }
 
 .app-header__row {
@@ -23,7 +25,7 @@
   height: 36px;
   border-radius: 50%;
   border: none;
-  background: var(--bg-sunken);
+  background: transparent;
   color: var(--ink);
   display: inline-flex;
   align-items: center;
@@ -47,4 +49,10 @@
 
 .app-header__end {
   width: 0;
+}
+
+@media (min-width: 900px) {
+  .app-header__logo-link {
+    display: none;
+  }
 }

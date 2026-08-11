@@ -71,8 +71,6 @@ export default function PostPage() {
           </div>
         </article>
 
-        <div className="fringe" />
-
         <section className="post-page__comments" aria-label="Комментарии">
           <h2 className="post-page__comments-title">Комментарии · {comments.length}</h2>
           {comments.map((c) => {

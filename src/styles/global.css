@@ -1,52 +1,42 @@
 /* ===== Коврик / Kovrick — design tokens ===== */
+/* Minimal, monochrome UI with a single accent color. Light + dark only. */
 
 :root {
-  --bg: #faf3e7;
-  --bg-raised: #fffcf5;
-  --bg-sunken: #f0e6d4;
-  --ink: #211a14;
-  --ink-soft: #6b5d4f;
-  --ink-faint: #a89b89;
-  --red: #c1432a;
-  --red-ink: #fff7ef;
-  --teal: #1f6f6b;
-  --mustard: #e3a72e;
-  --indigo: #33355e;
-  --line: rgba(33, 26, 20, 0.14);
-  --line-strong: rgba(33, 26, 20, 0.28);
-  --shadow: 0 1px 0 rgba(33, 26, 20, 0.06), 0 8px 24px -12px rgba(33, 26, 20, 0.28);
+  --bg: #ffffff;
+  --bg-elevated: #f7f7f7;
+  --ink: #0f1419;
+  --ink-soft: #536471;
+  --ink-faint: #8b98a5;
+  --accent: #c1432a;
+  --accent-ink: #fff7f5;
+  --line: #eaeef0;
+  --line-strong: #cfd9de;
 
   --font-logo: "Climate Crisis", sans-serif;
   --font-ui: "Dela Gothic One", sans-serif;
   --font-body: "Unbounded", sans-serif;
   --font-meta: "JetBrains Mono", monospace;
 
-  --radius-lg: 22px;
   --radius-md: 14px;
   --radius-sm: 8px;
 
-  --nav-h: 64px;
-  --header-h: 56px;
+  --nav-h: 56px;
+  --header-h: 52px;
 
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #17130f;
-    --bg-raised: #221b15;
-    --bg-sunken: #0f0c09;
-    --ink: #f5eee0;
-    --ink-soft: #b8a996;
-    --ink-faint: #786b5a;
-    --red: #e2593c;
-    --red-ink: #1a0f0a;
-    --teal: #49a9a3;
-    --mustard: #f0b93e;
-    --indigo: #8688c4;
-    --line: rgba(245, 238, 224, 0.14);
-    --line-strong: rgba(245, 238, 224, 0.26);
-    --shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 12px 28px -14px rgba(0, 0, 0, 0.6);
+    --bg: #000000;
+    --bg-elevated: #16181c;
+    --ink: #e7e9ea;
+    --ink-soft: #8b98a5;
+    --ink-faint: #536471;
+    --accent: #ff6a49;
+    --accent-ink: #1a0906;
+    --line: #2f3336;
+    --line-strong: #3e4144;
     color-scheme: dark;
   }
 }
@@ -97,7 +87,7 @@ textarea {
 }
 
 :focus-visible {
-  outline: 3px solid var(--mustard);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -111,43 +101,6 @@ textarea {
   }
 }
 
-/* ===== Signature element: woven fringe ===== */
-.fringe {
-  height: 11px;
-  width: 100%;
-  background-image: linear-gradient(-45deg, transparent 50%, var(--line-strong) 50%),
-    linear-gradient(45deg, transparent 50%, var(--line-strong) 50%);
-  background-size: 14px 14px;
-  background-repeat: repeat-x;
-  background-position: center top;
-  flex: none;
-}
-
-.fringe--accent {
-  background-image: linear-gradient(-45deg, transparent 50%, var(--red) 50%),
-    linear-gradient(45deg, transparent 50%, var(--red) 50%);
-}
-
-/* Kilim stripe band — used as card/section accents */
-.stripe-band {
-  height: 6px;
-  width: 100%;
-  flex: none;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--red) 0,
-    var(--red) 18%,
-    var(--mustard) 18%,
-    var(--mustard) 36%,
-    var(--teal) 36%,
-    var(--teal) 54%,
-    var(--indigo) 54%,
-    var(--indigo) 72%,
-    var(--ink) 72%,
-    var(--ink) 100%
-  );
-}
-
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -159,14 +112,8 @@ textarea {
 
 .container {
   width: 100%;
-  max-width: 560px;
+  max-width: 600px;
   margin: 0 auto;
-}
-
-@media (min-width: 900px) {
-  .container {
-    max-width: 620px;
-  }
 }
 
 /* ===== Buttons (Dela Gothic One — all interactive UI) ===== */
@@ -176,32 +123,32 @@ textarea {
   letter-spacing: 0.01em;
   border: none;
   border-radius: 999px;
-  padding: 13px 22px;
+  padding: 12px 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: transform 0.12s ease, background-color 0.12s ease, opacity 0.12s ease;
+  transition: opacity 0.12s ease, background-color 0.12s ease;
   color: var(--ink);
 }
 
 .btn:active {
-  transform: scale(0.96);
+  opacity: 0.75;
 }
 
 .btn--primary {
-  background: var(--red);
-  color: var(--red-ink);
+  background: var(--ink);
+  color: var(--bg);
 }
 
 .btn--outline {
   background: transparent;
-  border: 2px solid var(--ink);
+  border: 1px solid var(--line-strong);
   color: var(--ink);
 }
 
 .btn--ghost {
-  background: var(--bg-sunken);
+  background: var(--bg-elevated);
   color: var(--ink);
 }
 
@@ -210,6 +157,6 @@ textarea {
 }
 
 .btn:disabled {
-  opacity: 0.45;
+  opacity: 0.4;
   pointer-events: none;
 }

@@ -21,7 +21,6 @@ export default function Profile() {
     <>
       <Header title={user.name} showBack />
       <main className="profile container">
-        <div className="stripe-band" />
         <section className="profile__card">
           <img className="profile__avatar" src={avatarFor(username)} alt="" />
           <h2 className="profile__name">{user.name}</h2>
@@ -69,8 +68,6 @@ export default function Profile() {
             </button>
           )}
         </section>
-
-        <div className="fringe" />
 
         <h3 className="profile__grid-title">Коврик из постов</h3>
         {userPosts.length === 0 ? (

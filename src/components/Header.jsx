@@ -27,7 +27,6 @@ export default function Header({ title, showBack = false }) {
         {title ? <h1 className="app-header__title">{title}</h1> : <span className="app-header__spacer" />}
         <span className="app-header__end" />
       </div>
-      <div className="fringe" />
     </header>
   );
 }

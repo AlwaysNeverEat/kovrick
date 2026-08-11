@@ -34,23 +34,20 @@ export default function CreatePost() {
       <Header title="Новый пост" showBack />
       <main className="create container">
         <form className="create__form" onSubmit={handlePublish}>
-          <div className="create__author">
+          <div className="create__row">
             <img className="create__avatar" src={avatarFor(CURRENT_USERNAME)} alt="" />
-            <span className="create__handle">@{CURRENT_USERNAME}</span>
+            <textarea
+              className="create__text"
+              placeholder="Что постелить на ленту сегодня?"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              rows={4}
+              maxLength={500}
+              autoFocus
+            />
           </div>
 
-          <textarea
-            className="create__text"
-            placeholder="Что постелить на ленту сегодня?"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            rows={5}
-            maxLength={500}
-            autoFocus
-          />
-          <div className="create__counter">{text.length}/500</div>
-
-          {preview ? (
+          {preview && (
             <div className="create__preview">
               <img src={preview} alt="Предпросмотр" />
               <button
@@ -65,17 +62,19 @@ export default function CreatePost() {
                 ✕
               </button>
             </div>
-          ) : (
-            <label className="create__upload">
+          )}
+
+          <div className="create__toolbar">
+            <label className="create__photo-btn" aria-label="Добавить фото">
               <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} className="visually-hidden" />
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M4 17L8.5 11L12 15L15 12L20 17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 <rect x="3" y="4" width="18" height="16" rx="2.4" stroke="currentColor" strokeWidth="1.8" />
                 <circle cx="8" cy="8.5" r="1.6" fill="currentColor" />
               </svg>
-              <span>Добавить фото</span>
             </label>
-          )}
+            <span className="create__counter">{text.length}/500</span>
+          </div>
 
           <button type="submit" className="btn btn--primary btn--block create__submit" disabled={!canPublish}>
             Опубликовать
