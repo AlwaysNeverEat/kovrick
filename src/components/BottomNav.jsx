@@ -1,4 +1,5 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import GearIcon from "./GearIcon.jsx";
 import { useStore } from "../context/StoreContext.jsx";
 import "./BottomNav.css";
 
@@ -53,6 +54,14 @@ export default function BottomNav() {
           aria-label={t("nav.profile")}
         >
           <img className="bottom-nav__avatar" src={avatarFor(currentUsername)} alt="" />
+        </NavLink>
+
+        <NavLink
+          to="/settings"
+          className={({ isActive }) => `bottom-nav__item${isActive ? " is-active" : ""}`}
+          aria-label={t("nav.settings")}
+        >
+          <GearIcon size={24} />
         </NavLink>
       </div>
     </nav>
