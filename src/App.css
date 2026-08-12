@@ -15,11 +15,17 @@
 @media (min-width: 900px) {
   .app-shell {
     flex-direction: row;
+    justify-content: center;
     max-width: 1080px;
     margin: 0 auto;
   }
 
+  /* The column is exactly as wide as a post, so post separators run edge to edge
+     instead of floating inside a wider empty column. */
   .app-shell__main {
+    flex: none;
+    width: 600px;
+    max-width: 100%;
     border-left: 1px solid var(--line);
     border-right: 1px solid var(--line);
   }

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Header from "../components/Header.jsx";
+import InlineComposer from "../components/InlineComposer.jsx";
 import PostCard from "../components/PostCard.jsx";
 import { useStore } from "../context/StoreContext.jsx";
 import "./Feed.css";
@@ -42,8 +43,9 @@ export default function Feed() {
 
   return (
     <>
-      <Header />
+      <Header desktopTitle="Лента" />
       <main className="feed container">
+        <InlineComposer />
         {entries.map((entry) => (
           <PostCard
             key={entry.key}

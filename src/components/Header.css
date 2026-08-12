@@ -7,12 +7,27 @@
   border-bottom: 1px solid var(--line);
 }
 
+/* Three slots of equal width so the middle one is optically centered
+   whether it holds the logo or a page title. */
 .app-header__row {
   height: var(--header-h);
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  padding: 0 12px;
+  gap: 8px;
+}
+
+.app-header__side {
   display: flex;
   align-items: center;
-  padding: 0 16px;
-  gap: 12px;
+}
+
+.app-header__center {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .app-header__logo-link {
@@ -33,26 +48,33 @@
   flex: none;
 }
 
+.app-header__back:hover {
+  background: var(--bg-elevated);
+}
+
 .app-header__title {
   font-family: var(--font-body);
   font-size: 15px;
   font-weight: 700;
   margin: 0;
-  flex: 1;
   text-align: center;
-  padding-right: 36px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.app-header__spacer {
-  flex: 1;
-}
-
-.app-header__end {
-  width: 0;
+/* The desktop title fills the bar where the side nav already shows the logo. */
+.app-header__title--desktop {
+  display: none;
 }
 
 @media (min-width: 900px) {
   .app-header__logo-link {
     display: none;
+  }
+
+  .app-header__title--desktop {
+    display: block;
   }
 }
