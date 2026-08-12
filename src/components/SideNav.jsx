@@ -1,5 +1,6 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Logo from "./Logo.jsx";
+import GearIcon from "./GearIcon.jsx";
 import { useStore } from "../context/StoreContext.jsx";
 import "./SideNav.css";
 
@@ -39,6 +40,10 @@ export default function SideNav() {
             <path d="M4.5 20C5.6 16.5 8.4 14.5 12 14.5C15.6 14.5 18.4 16.5 19.5 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
           {t("nav.profile")}
+        </NavLink>
+        <NavLink to="/settings" className={({ isActive }) => `side-nav__link${isActive ? " is-active" : ""}`}>
+          <GearIcon size={22} />
+          {t("nav.settings")}
         </NavLink>
       </nav>
 
