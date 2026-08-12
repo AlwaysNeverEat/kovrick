@@ -2,6 +2,7 @@ import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import { StoreProvider, useStore } from "./context/StoreContext.jsx";
 import SideNav from "./components/SideNav.jsx";
 import BottomNav from "./components/BottomNav.jsx";
+import ComposeFab from "./components/ComposeFab.jsx";
 import Toast from "./components/Toast.jsx";
 import Feed from "./pages/Feed.jsx";
 import PostPage from "./pages/PostPage.jsx";
@@ -31,6 +32,9 @@ function AppShell() {
   const background =
     location.state?.backgroundLocation || (location.pathname === "/create" ? { pathname: "/" } : null);
 
+  // No compose button over the settings screens or behind the composer itself.
+  const showFab = !background && !location.pathname.startsWith("/settings");
+
   return (
     <div className="app-shell">
       <SideNav />
@@ -47,6 +51,8 @@ function AppShell() {
         </Routes>
         <BottomNav />
       </div>
+
+      {showFab && <ComposeFab />}
 
       {background && (
         <Routes>
