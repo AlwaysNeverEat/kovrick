@@ -1,0 +1,121 @@
+/* Twitter-style inline composer at the top of the feed — desktop only.
+   On mobile the composer stays a full-screen modal opened from the bottom nav. */
+.inline-composer {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .inline-composer {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .inline-composer__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex: none;
+  }
+
+  .inline-composer__body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .inline-composer__text {
+    display: block;
+    width: 100%;
+    resize: none;
+    overflow: hidden;
+    border: none;
+    padding: 10px 0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: transparent;
+  }
+
+  .inline-composer__text:focus {
+    outline: none;
+  }
+
+  .inline-composer__text::placeholder {
+    color: var(--ink-faint);
+  }
+
+  .inline-composer__preview {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: 10px;
+    aspect-ratio: 4 / 3;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+  }
+
+  .inline-composer__preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .inline-composer__remove {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-family: var(--font-ui);
+    font-size: 12px;
+  }
+
+  .inline-composer__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+  }
+
+  .inline-composer__photo-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+
+  .inline-composer__photo-btn:hover {
+    background: var(--bg-elevated);
+    color: var(--ink);
+  }
+
+  .inline-composer__end {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .inline-composer__counter {
+    font-family: var(--font-meta);
+    font-size: 11px;
+    color: var(--ink-faint);
+  }
+
+  .inline-composer__submit {
+    padding: 9px 18px;
+    font-size: 12px;
+  }
+}

@@ -1,26 +1,23 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useStore } from "../context/StoreContext.jsx";
+import useComposerDraft from "./useComposerDraft.js";
 import QuotedPost from "./QuotedPost.jsx";
 import "./Composer.css";
 
 export default function Composer() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentUsername, avatarFor, addPost, showToast } = useStore();
+  const { currentUsername, avatarFor } = useStore();
   const backgroundLocation = location.state?.backgroundLocation || { pathname: "/" };
   const quotedPostId = location.state?.quotedPostId || null;
-
-  const fileRef = useRef(null);
-  const textRef = useRef(null);
-  const [text, setText] = useState("");
-  const [preview, setPreview] = useState(null);
-
-  const canPublish = text.trim().length > 0 || !!preview;
 
   function close() {
     navigate(backgroundLocation, { replace: true });
   }
+
+  const draft = useComposerDraft({ quotedPostId, onPublished: close });
+  const { fileRef, textRef, text, setText, preview, canPublish, maxLength } = draft;
 
   useEffect(() => {
     textRef.current?.focus();
@@ -37,24 +34,8 @@ export default function Composer() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function handleFile(e) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => setPreview(reader.result);
-    reader.readAsDataURL(file);
-  }
-
-  function handlePublish(e) {
-    e.preventDefault();
-    if (!canPublish) return;
-    addPost({ text: text.trim(), image: preview, quotedPostId });
-    showToast("Пост опубликован");
-    close();
-  }
-
   function handleBackdropClick() {
-    if (!text.trim() && !preview) close();
+    if (!draft.isDirty) close();
   }
 
   return (
@@ -83,7 +64,7 @@ export default function Composer() {
           </button>
         </header>
 
-        <form id="composer-form" className="composer__form" onSubmit={handlePublish}>
+        <form id="composer-form" className="composer__form" onSubmit={draft.publish}>
           <div className="composer__row">
             <img className="composer__avatar" src={avatarFor(currentUsername)} alt="" />
             <textarea
@@ -93,7 +74,7 @@ export default function Composer() {
               value={text}
               onChange={(e) => setText(e.target.value)}
               rows={4}
-              maxLength={500}
+              maxLength={maxLength}
             />
           </div>
 
@@ -109,10 +90,7 @@ export default function Composer() {
               <button
                 type="button"
                 className="composer__remove"
-                onClick={() => {
-                  setPreview(null);
-                  if (fileRef.current) fileRef.current.value = "";
-                }}
+                onClick={draft.clearPreview}
                 aria-label="Удалить фото"
               >
                 ✕
@@ -122,7 +100,7 @@ export default function Composer() {
 
           <div className="composer__toolbar">
             <label className="composer__photo-btn" aria-label="Добавить фото">
-              <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} className="visually-hidden" />
+              <input ref={fileRef} type="file" accept="image/*" onChange={draft.handleFile} className="visually-hidden" />
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M4 17L8.5 11L12 15L15 12L20 17"
@@ -135,7 +113,7 @@ export default function Composer() {
                 <circle cx="8" cy="8.5" r="1.6" fill="currentColor" />
               </svg>
             </label>
-            <span className="composer__counter">{text.length}/500</span>
+            <span className="composer__counter">{text.length}/{maxLength}</span>
           </div>
           <p className="composer__note">Это прототип: пост появится только у вас в браузере, никуда не отправляется.</p>
         </form>
