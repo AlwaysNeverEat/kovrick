@@ -1,10 +1,12 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Logo from "./Logo.jsx";
-import { CURRENT_USERNAME } from "../data/mockData.js";
+import { useStore } from "../context/StoreContext.jsx";
 import "./SideNav.css";
 
 export default function SideNav() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { currentUsername } = useStore();
 
   return (
     <aside className="side-nav">
@@ -21,8 +23,15 @@ export default function SideNav() {
           </svg>
           Лента
         </NavLink>
+        <NavLink to="/search" className={({ isActive }) => `side-nav__link${isActive ? " is-active" : ""}`}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
+            <path d="M20 20L16.5 16.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+          Поиск
+        </NavLink>
         <NavLink
-          to={`/profile/${CURRENT_USERNAME}`}
+          to={`/profile/${currentUsername}`}
           className={({ isActive }) => `side-nav__link${isActive ? " is-active" : ""}`}
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
@@ -33,7 +42,11 @@ export default function SideNav() {
         </NavLink>
       </nav>
 
-      <button type="button" className="btn btn--primary btn--block" onClick={() => navigate("/create")}>
+      <button
+        type="button"
+        className="btn btn--primary btn--block"
+        onClick={() => navigate("/create", { state: { backgroundLocation: location } })}
+      >
         Создать
       </button>
 

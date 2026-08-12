@@ -1,0 +1,41 @@
+.welcome {
+  flex: 1;
+  display: flex;
+  min-height: 100dvh;
+  padding: 40px 0;
+}
+
+.welcome__inner {
+  margin: auto;
+  max-width: 380px;
+  width: 100%;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.welcome__inner .logo {
+  margin-bottom: 18px;
+}
+
+.welcome__title {
+  font-family: var(--font-body);
+  font-size: 21px;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+
+.welcome__subtitle {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0 0 24px;
+}
+
+.welcome .profile-form {
+  text-align: left;
+}
+
+.welcome__demo {
+  margin-top: 12px;
+}

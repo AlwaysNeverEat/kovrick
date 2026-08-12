@@ -1,6 +1,6 @@
 .post-page {
   flex: 1;
-  padding-bottom: calc(28px + var(--nav-h));
+  padding-bottom: calc(28px + var(--nav-total));
 }
 
 .post-page__post {
@@ -63,29 +63,11 @@
 .post-page__actions {
   border-top: 1px solid var(--line);
   margin-top: 10px;
-  padding-top: 10px;
+  padding-top: 2px;
 }
 
-.post-page__like {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: none;
-  background: transparent;
-  color: var(--ink-soft);
-  font-family: var(--font-meta);
-  font-size: 13px;
-  padding: 8px 10px;
-  margin-left: -10px;
-  border-radius: 999px;
-}
-
-.post-page__like:hover {
-  background: var(--bg-elevated);
-}
-
-.post-page__like.is-liked {
-  color: var(--accent);
+.post-page__actions .post-actions {
+  margin-top: 8px;
 }
 
 .post-page__comments {

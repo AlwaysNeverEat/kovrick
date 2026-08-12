@@ -1,33 +1,31 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import Header from "../components/Header.jsx";
 import PostMedia from "../components/PostMedia.jsx";
-import { usePosts } from "../context/PostsContext.jsx";
-import { getUser, avatarFor, CURRENT_USERNAME } from "../data/mockData.js";
-import { commentsFor } from "../data/mockData.js";
-import { timeAgo } from "../utils/time.js";
+import PostActions from "../components/PostActions.jsx";
+import QuotedPost from "../components/QuotedPost.jsx";
+import { useStore } from "../context/StoreContext.jsx";
+import { renderRichText } from "../utils/richText.jsx";
+import { timeAgoLong, timeAgo } from "../utils/time.js";
 import "./PostPage.css";
 
 export default function PostPage() {
   const { id } = useParams();
-  const { getPost, toggleLike, incrementComments } = usePosts();
+  const { getPost, getUser, avatarFor, getComments, addComment, currentUsername } = useStore();
   const post = getPost(id);
-  const [comments, setComments] = useState(() => commentsFor(id));
   const [draft, setDraft] = useState("");
+  const commentInputRef = useRef(null);
 
   if (!post) return <Navigate to="/" replace />;
 
   const user = getUser(post.username);
+  const comments = getComments(id);
 
   function submitComment(e) {
     e.preventDefault();
     const text = draft.trim();
     if (!text) return;
-    setComments((prev) => [
-      ...prev,
-      { id: `${id}-local-${prev.length}`, username: CURRENT_USERNAME, text, createdAt: new Date().toISOString() },
-    ]);
-    incrementComments(id);
+    addComment(id, text);
     setDraft("");
   }
 
@@ -44,30 +42,18 @@ export default function PostPage() {
             </span>
           </Link>
 
-          {post.text && <p className="post-page__text">{post.text}</p>}
+          {post.text && <p className="post-page__text">{renderRichText(post.text)}</p>}
+
+          {post.quotedPostId && <QuotedPost postId={post.quotedPostId} />}
+
           {post.image && <PostMedia image={post.image} nsfw={post.nsfw} />}
 
           <time className="post-page__time" dateTime={post.createdAt}>
-            {timeAgo(post.createdAt)} назад
+            {timeAgoLong(post.createdAt)}
           </time>
 
           <div className="post-page__actions">
-            <button
-              type="button"
-              className={`post-page__like${post.liked ? " is-liked" : ""}`}
-              onClick={() => toggleLike(post.id)}
-              aria-pressed={post.liked}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill={post.liked ? "currentColor" : "none"}>
-                <path
-                  d="M12 20.5S3 15 3 8.9C3 5.9 5.4 3.5 8.4 3.5C10.2 3.5 11.4 4.5 12 5.2C12.6 4.5 13.8 3.5 15.6 3.5C18.6 3.5 21 5.9 21 8.9C21 15 12 20.5 12 20.5Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <span>Нравится · {post.likes}</span>
-            </button>
+            <PostActions post={post} size="lg" onComment={() => commentInputRef.current?.focus()} />
           </div>
         </article>
 
@@ -85,7 +71,7 @@ export default function PostPage() {
                       {timeAgo(c.createdAt)}
                     </time>
                   </div>
-                  <p className="comment__text">{c.text}</p>
+                  <p className="comment__text">{renderRichText(c.text)}</p>
                 </div>
               </div>
             );
@@ -93,8 +79,9 @@ export default function PostPage() {
         </section>
 
         <form className="comment-form" onSubmit={submitComment}>
-          <img className="comment-form__avatar" src={avatarFor(CURRENT_USERNAME)} alt="" />
+          <img className="comment-form__avatar" src={avatarFor(currentUsername)} alt="" />
           <input
+            ref={commentInputRef}
             className="comment-form__input"
             placeholder="Комментарий…"
             value={draft}

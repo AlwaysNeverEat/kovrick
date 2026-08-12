@@ -22,8 +22,16 @@
 
   --nav-h: 56px;
   --header-h: 52px;
+  --nav-safe: env(safe-area-inset-bottom, 0px);
+  --nav-total: calc(var(--nav-h) + var(--nav-safe));
 
   color-scheme: light;
+}
+
+@media (min-width: 900px) {
+  :root {
+    --nav-total: 0px;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -159,4 +167,13 @@ textarea {
 .btn:disabled {
   opacity: 0.4;
   pointer-events: none;
+}
+
+.rich-token {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.rich-token:hover {
+  text-decoration: underline;
 }

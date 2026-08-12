@@ -1,8 +1,8 @@
-import { rugPatternDataUri, avatarDataUri } from "../utils/rugPattern.js";
+import { rugPatternDataUri } from "../utils/rugPattern.js";
 
 export const CURRENT_USERNAME = "lenavolna";
 
-export const users = [
+export const seedUsers = [
   {
     username: "lenavolna",
     name: "Лена Волна",
@@ -50,12 +50,6 @@ export const users = [
   },
 ];
 
-const userMap = Object.fromEntries(users.map((u) => [u.username, u]));
-
-export function getUser(username) {
-  return userMap[username];
-}
-
 export function initials(name) {
   return name
     .split(" ")
@@ -63,11 +57,6 @@ export function initials(name) {
     .slice(0, 2)
     .join("")
     .toUpperCase();
-}
-
-export function avatarFor(username) {
-  const u = getUser(username);
-  return avatarDataUri(username, initials(u?.name || username));
 }
 
 function ago(hoursAgoFromNow) {
@@ -78,7 +67,7 @@ const rawPosts = [
   {
     id: "p1",
     username: "lenavolna",
-    text: "Постелила новый коврик у балкона — теперь кофе по утрам пьётся совершенно иначе. Кто-то вообще замечает разницу между хорошим и просто ковром?",
+    text: "Постелила новый коврик у балкона — теперь кофе по утрам пьётся совершенно иначе. Кто-то вообще замечает разницу между хорошим и просто ковром? #коврик #уют",
     image: rugPatternDataUri("p1", { variant: "diamond" }),
     hoursAgo: 2,
     likes: 214,
@@ -88,7 +77,7 @@ const rawPosts = [
   {
     id: "p2",
     username: "dvorovoy_kot",
-    text: "Сегодня насчитал семь голубей и одного подозрительного кота с другого двора. Веду протокол.",
+    text: "Сегодня насчитал семь голубей и одного подозрительного кота с другого двора. Веду протокол. #двор #голуби",
     image: rugPatternDataUri("p2", { variant: "stripe" }),
     hoursAgo: 4,
     likes: 998,
@@ -98,7 +87,7 @@ const rawPosts = [
   {
     id: "p3",
     username: "m.rugmaster",
-    text: "Новая работа — 40 часов узловязания, три испорченных пальца, один готовый ковёр. Детали техники в комментариях, спрашивайте.",
+    text: "Новая работа — 40 часов узловязания, три испорченных пальца, один готовый ковёр. Детали техники в комментариях, спрашивайте. #ручнаяработа",
     image: rugPatternDataUri("p3", { variant: "chevron" }),
     hoursAgo: 7,
     likes: 3021,
@@ -118,7 +107,7 @@ const rawPosts = [
   {
     id: "p5",
     username: "sever_veter",
-    text: "Палатка, минус два градуса и вид, который не влезает ни в один экран. Взрослая жизнь подождёт до понедельника.",
+    text: "Палатка, минус два градуса и вид, который не влезает ни в один экран. Взрослая жизнь подождёт до понедельника. #путешествия",
     image: rugPatternDataUri("p5", { variant: "diamond" }),
     hoursAgo: 13,
     likes: 1522,
@@ -138,7 +127,7 @@ const rawPosts = [
   {
     id: "p7",
     username: "dvorovoy_kot",
-    text: "Кто-то оставил открытую банку кильки на подоконнике. Двор гудит третий час.",
+    text: "Кто-то оставил открытую банку кильки на подоконнике. Двор гудит третий час. #двор",
     image: rugPatternDataUri("p7", { variant: "stripe" }),
     hoursAgo: 20,
     likes: 1890,
@@ -158,7 +147,7 @@ const rawPosts = [
   {
     id: "p9",
     username: "baba_zina",
-    text: "Внучка научила меня делать сторис. Кажется, я нажала не туда десять раз, но горжусь собой.",
+    text: "Внучка научила меня делать сторис. Кажется, я нажала не туда десять раз, но горжусь собой. Спасибо, @lenavolna, что объяснила ещё раз по телефону!",
     image: rugPatternDataUri("p9", { variant: "diamond" }),
     hoursAgo: 40,
     likes: 677,

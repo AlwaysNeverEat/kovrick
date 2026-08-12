@@ -1,6 +1,6 @@
 .feed {
   flex: 1;
-  padding-bottom: var(--nav-h);
+  padding-bottom: calc(24px + var(--nav-total));
 }
 
 .feed__end {
