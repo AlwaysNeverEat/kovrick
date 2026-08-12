@@ -1,0 +1,36 @@
+/* Floats above the bottom nav so composing stays one tap away without taking a
+   slot in the tab bar. */
+.compose-fab {
+  position: fixed;
+  right: 16px;
+  bottom: calc(var(--nav-total) + 16px);
+  z-index: 40;
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+  transition: opacity 0.12s ease;
+}
+
+.compose-fab:active {
+  opacity: 0.75;
+}
+
+/* The drawer scrim covers the page, but a bright floating button peeking
+   through it reads as still-active. Cosmetic only — the scrim already swallows
+   the taps in browsers without :has(). */
+body:has(.nav-drawer__backdrop) .compose-fab {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .compose-fab {
+    display: none;
+  }
+}

@@ -11,13 +11,17 @@
   border-top: 1px solid var(--line);
 }
 
+/* Only the two feed-level tabs live here — the account menu moved into the
+   header drawer and composing moved into the floating button, so the two
+   remaining icons are grouped in the middle instead of spread edge to edge. */
 .bottom-nav__row {
   height: var(--nav-h);
   max-width: 600px;
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 72px;
 }
 
 .bottom-nav__item {
@@ -40,18 +44,6 @@
 
 .bottom-nav__item.is-active {
   color: var(--ink);
-}
-
-.bottom-nav__avatar {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.bottom-nav__item.is-active .bottom-nav__avatar {
-  outline: 2px solid var(--ink);
-  outline-offset: 2px;
 }
 
 @media (min-width: 900px) {

@@ -9,6 +9,8 @@ export const translations = {
     "nav.create": "Создать",
     "nav.createPost": "Создать пост",
     "nav.main": "Основная навигация",
+    "nav.menu": "Меню",
+    "nav.openMenu": "Открыть меню",
     "nav.footnote": "визуальный прототип · без бэкенда",
 
     "header.back": "Назад",
@@ -114,6 +116,8 @@ export const translations = {
     "nav.create": "Create",
     "nav.createPost": "Create post",
     "nav.main": "Main navigation",
+    "nav.menu": "Menu",
+    "nav.openMenu": "Open menu",
     "nav.footnote": "visual prototype · no backend",
 
     "header.back": "Back",

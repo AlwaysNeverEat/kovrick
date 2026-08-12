@@ -1,16 +1,9 @@
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import GearIcon from "./GearIcon.jsx";
+import { NavLink } from "react-router-dom";
 import { useStore } from "../context/StoreContext.jsx";
 import "./BottomNav.css";
 
 export default function BottomNav() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { currentUsername, avatarFor, t } = useStore();
-
-  function openComposer() {
-    navigate("/create", { state: { backgroundLocation: location } });
-  }
+  const { t } = useStore();
 
   return (
     <nav className="bottom-nav" aria-label={t("nav.main")}>
@@ -40,28 +33,6 @@ export default function BottomNav() {
             <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
             <path d="M20 20L16.5 16.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
-        </NavLink>
-
-        <button type="button" className="bottom-nav__item" onClick={openComposer} aria-label={t("nav.createPost")}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        </button>
-
-        <NavLink
-          to={`/profile/${currentUsername}`}
-          className={({ isActive }) => `bottom-nav__item${isActive ? " is-active" : ""}`}
-          aria-label={t("nav.profile")}
-        >
-          <img className="bottom-nav__avatar" src={avatarFor(currentUsername)} alt="" />
-        </NavLink>
-
-        <NavLink
-          to="/settings"
-          className={({ isActive }) => `bottom-nav__item${isActive ? " is-active" : ""}`}
-          aria-label={t("nav.settings")}
-        >
-          <GearIcon size={24} />
         </NavLink>
       </div>
     </nav>
