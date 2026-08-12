@@ -1,9 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useStore } from "../context/StoreContext.jsx";
 import Logo from "./Logo.jsx";
 import "./Header.css";
 
-export default function Header({ title, desktopTitle, showBack = false }) {
+export default function Header({ title, desktopTitle, showBack = false, right }) {
   const navigate = useNavigate();
+  const { t } = useStore();
 
   return (
     <header className="app-header">
@@ -14,7 +16,7 @@ export default function Header({ title, desktopTitle, showBack = false }) {
               type="button"
               className="app-header__back"
               onClick={() => navigate(-1)}
-              aria-label="Назад"
+              aria-label={t("header.back")}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M15 5L8 12L15 19" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
@@ -28,7 +30,7 @@ export default function Header({ title, desktopTitle, showBack = false }) {
             <h1 className="app-header__title">{title}</h1>
           ) : (
             <>
-              <Link to="/" className="app-header__logo-link" aria-label="Коврик">
+              <Link to="/" className="app-header__logo-link" aria-label={t("brand.name")}>
                 <Logo size="sm" />
               </Link>
               {desktopTitle && (
@@ -38,7 +40,7 @@ export default function Header({ title, desktopTitle, showBack = false }) {
           )}
         </div>
 
-        <div className="app-header__side" />
+        <div className="app-header__side">{right}</div>
       </div>
     </header>
   );

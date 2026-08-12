@@ -53,6 +53,37 @@
   }
 }
 
+/* Explicit theme choice (Settings) always wins over the OS preference above. */
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --bg-elevated: #f7f7f7;
+  --bg-raised: #ffffff;
+  --scrim: rgba(15, 20, 25, 0.4);
+  --ink: #0f1419;
+  --ink-soft: #536471;
+  --ink-faint: #8b98a5;
+  --accent: #c1432a;
+  --accent-ink: #fff7f5;
+  --line: #eaeef0;
+  --line-strong: #cfd9de;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #000000;
+  --bg-elevated: #16181c;
+  --bg-raised: #1c1f23;
+  --scrim: rgba(91, 112, 131, 0.4);
+  --ink: #e7e9ea;
+  --ink-soft: #8b98a5;
+  --ink-faint: #536471;
+  --accent: #ff6a49;
+  --accent-ink: #1a0906;
+  --line: #2f3336;
+  --line-strong: #3e4144;
+  color-scheme: dark;
+}
+
 * {
   box-sizing: border-box;
 }

@@ -11,6 +11,7 @@ import Search from "./pages/Search.jsx";
 import TagPage from "./pages/TagPage.jsx";
 import Welcome from "./pages/Welcome.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
+import Settings from "./pages/Settings.jsx";
 import "./App.css";
 
 function AppShell() {
@@ -38,6 +39,7 @@ function AppShell() {
           <Route path="/" element={<Feed />} />
           <Route path="/post/:id" element={<PostPage />} />
           <Route path="/profile/:username" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="/settings/profile" element={<EditProfile />} />
           <Route path="/search" element={<Search />} />
           <Route path="/tag/:tag" element={<TagPage />} />

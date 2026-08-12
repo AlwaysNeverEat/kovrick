@@ -18,7 +18,7 @@ function RepostBylineIcon() {
 
 export default function PostCard({ post, repostedBy, highlighted }) {
   const navigate = useNavigate();
-  const { getUser, avatarFor } = useStore();
+  const { getUser, avatarFor, lang, t } = useStore();
   const user = getUser(post.username);
   const reposter = repostedBy ? getUser(repostedBy) : null;
 
@@ -36,7 +36,7 @@ export default function PostCard({ post, repostedBy, highlighted }) {
       {repostedBy && (
         <div className="post-card__repost-byline">
           <RepostBylineIcon />
-          {reposter?.name || repostedBy} сделал(а) репост
+          {t("postCard.repostedBy", { name: reposter?.name || repostedBy })}
         </div>
       )}
 
@@ -53,7 +53,7 @@ export default function PostCard({ post, repostedBy, highlighted }) {
             </Link>
             <span className="post-card__dot">·</span>
             <time className="post-card__time" dateTime={post.createdAt}>
-              {timeAgo(post.createdAt)}
+              {timeAgo(post.createdAt, lang)}
             </time>
           </div>
 

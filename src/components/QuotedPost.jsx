@@ -5,11 +5,11 @@ import "./QuotedPost.css";
 
 export default function QuotedPost({ postId }) {
   const navigate = useNavigate();
-  const { getPost, getUser, avatarFor } = useStore();
+  const { getPost, getUser, avatarFor, lang, t } = useStore();
   const post = getPost(postId);
 
   if (!post) {
-    return <div className="quoted-post quoted-post--gone">Пост удалён</div>;
+    return <div className="quoted-post quoted-post--gone">{t("quotedPost.gone")}</div>;
   }
 
   const user = getUser(post.username);
@@ -32,7 +32,7 @@ export default function QuotedPost({ postId }) {
         <span className="quoted-post__name">{user?.name || post.username}</span>
         <span className="quoted-post__handle">@{post.username}</span>
         <span className="quoted-post__dot">·</span>
-        <span className="quoted-post__time">{timeAgo(post.createdAt)}</span>
+        <span className="quoted-post__time">{timeAgo(post.createdAt, lang)}</span>
       </div>
       {post.text && <p className="quoted-post__text">{post.text}</p>}
       {post.image && <img className="quoted-post__image" src={post.image} alt="" loading="lazy" />}

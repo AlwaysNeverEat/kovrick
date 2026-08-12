@@ -57,7 +57,7 @@ function stop(e) {
 export default function PostActions({ post, size = "sm", onComment }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentUsername, toggleLike, toggleRepost, deletePost, showToast } = useStore();
+  const { currentUsername, toggleLike, toggleRepost, deletePost, showToast, t } = useStore();
   const [repostMenuOpen, setRepostMenuOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -83,7 +83,7 @@ export default function PostActions({ post, size = "sm", onComment }) {
     stop(e);
     toggleRepost(post.id);
     setRepostMenuOpen(false);
-    showToast(reposted ? "Репост отменён" : "Вы сделали репост");
+    showToast(reposted ? t("toast.repostUndone") : t("toast.reposted"));
   }
 
   function handleQuote(e) {
@@ -96,7 +96,7 @@ export default function PostActions({ post, size = "sm", onComment }) {
     stop(e);
     deletePost(post.id);
     setMenuOpen(false);
-    showToast("Пост удалён");
+    showToast(t("toast.postDeleted"));
   }
 
   return (
@@ -136,7 +136,7 @@ export default function PostActions({ post, size = "sm", onComment }) {
             setRepostMenuOpen((v) => !v);
           }}
           aria-pressed={reposted}
-          aria-label="Репост"
+          aria-label={t("postActions.repost")}
         >
           <RepostIcon />
           <span>{post.reposts}</span>
@@ -144,10 +144,10 @@ export default function PostActions({ post, size = "sm", onComment }) {
         {repostMenuOpen && (
           <div className="post-actions__dropdown" onClick={stop}>
             <button type="button" onClick={handleRepost}>
-              {reposted ? "Отменить репост" : "Репост"}
+              {reposted ? t("postActions.undoRepost") : t("postActions.repost")}
             </button>
             <button type="button" onClick={handleQuote}>
-              Цитировать
+              {t("postActions.quote")}
             </button>
           </div>
         )}
@@ -162,7 +162,7 @@ export default function PostActions({ post, size = "sm", onComment }) {
               stop(e);
               setMenuOpen((v) => !v);
             }}
-            aria-label="Ещё"
+            aria-label={t("postActions.more")}
           >
             <MoreIcon />
           </button>
@@ -177,13 +177,13 @@ export default function PostActions({ post, size = "sm", onComment }) {
                     setConfirmDelete(true);
                   }}
                 >
-                  Удалить пост
+                  {t("postActions.deletePost")}
                 </button>
               ) : (
                 <>
-                  <p className="post-actions__confirm-text">Удалить пост без возможности отмены?</p>
+                  <p className="post-actions__confirm-text">{t("postActions.deleteConfirm")}</p>
                   <button type="button" className="post-actions__danger" onClick={handleDelete}>
-                    Да, удалить
+                    {t("postActions.deleteYes")}
                   </button>
                   <button
                     type="button"
@@ -192,7 +192,7 @@ export default function PostActions({ post, size = "sm", onComment }) {
                       setConfirmDelete(false);
                     }}
                   >
-                    Отмена
+                    {t("postActions.cancel")}
                   </button>
                 </>
               )}

@@ -1,9 +1,22 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { seedUsers, initialPosts, commentsFor, initials } from "../data/mockData.js";
 import { avatarDataUri } from "../utils/rugPattern.js";
+import { detectLang, translate, SUPPORTED_LANGS } from "../i18n/dictionary.js";
+import { getStoredTheme, applyTheme } from "../utils/theme.js";
 
 const StoreContext = createContext(null);
 const SESSION_KEY = "kovrick:session";
+const LANG_KEY = "kovrick:lang";
+
+function loadLang() {
+  try {
+    const stored = localStorage.getItem(LANG_KEY);
+    if (SUPPORTED_LANGS.includes(stored)) return stored;
+  } catch {
+    // ignore
+  }
+  return detectLang();
+}
 
 let nextPostId = 1000;
 let nextCommentId = 1000;
@@ -44,6 +57,20 @@ export function StoreProvider({ children }) {
   const [posts, setPosts] = useState(buildSeedPosts);
   const [comments, setComments] = useState(buildSeedComments);
   const [toast, setToast] = useState(null);
+  const [lang, setLangState] = useState(loadLang);
+  const [theme, setThemeState] = useState(getStoredTheme);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(LANG_KEY, lang);
+    } catch {
+      // ignore
+    }
+  }, [lang]);
+
+  useEffect(() => {
+    applyTheme(theme);
+  }, [theme]);
 
   useEffect(() => {
     if (!currentUsername) {
@@ -65,9 +92,21 @@ export function StoreProvider({ children }) {
   const getUser = useCallback((username) => users[username], [users]);
 
   const avatarFor = useCallback(
-    (username) => avatarDataUri(username, initials(users[username]?.name || username || "?")),
+    (username) => {
+      const u = users[username];
+      if (u?.avatarUrl) return u.avatarUrl;
+      return avatarDataUri(username, initials(u?.name || username || "?"));
+    },
     [users]
   );
+
+  const t = useCallback((key, vars) => translate(lang, key, vars), [lang]);
+
+  const setLang = useCallback((next) => {
+    if (SUPPORTED_LANGS.includes(next)) setLangState(next);
+  }, []);
+
+  const setTheme = useCallback((next) => setThemeState(next), []);
 
   const getPost = useCallback((id) => posts.find((p) => p.id === id), [posts]);
 
@@ -151,13 +190,15 @@ export function StoreProvider({ children }) {
     [currentUsername]
   );
 
-  const register = useCallback(({ name, username, bio, location }) => {
+  const register = useCallback(({ name, username, bio, location, avatarUrl }) => {
     const profile = {
       username,
       name,
       bio: bio || "",
       location: location || "",
-      joined: "только что",
+      avatarUrl: avatarUrl || null,
+      joined: null,
+      joinedAt: new Date().toISOString(),
       followers: 0,
       following: 0,
     };
@@ -165,18 +206,16 @@ export function StoreProvider({ children }) {
     setCurrentUsername(username);
   }, []);
 
-  const login = useCallback((username) => setCurrentUsername(username), []);
-
   const logout = useCallback(() => setCurrentUsername(null), []);
 
   const updateProfile = useCallback(
-    ({ name, username: newUsername, bio, location }) => {
+    ({ name, username: newUsername, bio, location, avatarUrl }) => {
       const oldUsername = currentUsername;
       if (!oldUsername) return;
 
       setUsers((prev) => {
         const oldProfile = prev[oldUsername];
-        const updated = { ...oldProfile, name, username: newUsername, bio, location };
+        const updated = { ...oldProfile, name, username: newUsername, bio, location, avatarUrl: avatarUrl || null };
         if (newUsername === oldUsername) return { ...prev, [oldUsername]: updated };
         const next = { ...prev };
         delete next[oldUsername];
@@ -213,6 +252,9 @@ export function StoreProvider({ children }) {
       currentUsername,
       posts,
       toast,
+      lang,
+      t,
+      theme,
       getUser,
       avatarFor,
       getPost,
@@ -223,16 +265,20 @@ export function StoreProvider({ children }) {
       deletePost,
       addComment,
       register,
-      login,
       logout,
       updateProfile,
       showToast,
+      setLang,
+      setTheme,
     }),
     [
       users,
       currentUsername,
       posts,
       toast,
+      lang,
+      t,
+      theme,
       getUser,
       avatarFor,
       getPost,
@@ -243,10 +289,11 @@ export function StoreProvider({ children }) {
       deletePost,
       addComment,
       register,
-      login,
       logout,
       updateProfile,
       showToast,
+      setLang,
+      setTheme,
     ]
   );
 

@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useStore } from "../context/StoreContext.jsx";
 import "./PostMedia.css";
 
 export default function PostMedia({ image, nsfw, onInteract }) {
+  const { t } = useStore();
   const [revealed, setRevealed] = useState(false);
   if (!image) return null;
 
@@ -11,7 +13,7 @@ export default function PostMedia({ image, nsfw, onInteract }) {
       {nsfw && !revealed && (
         <div className="nsfw-overlay">
           <span className="nsfw-overlay__badge">18+</span>
-          <p className="nsfw-overlay__label">Возможен деликатный контент</p>
+          <p className="nsfw-overlay__label">{t("nsfw.label")}</p>
           <button
             type="button"
             className="btn btn--primary"
@@ -20,7 +22,7 @@ export default function PostMedia({ image, nsfw, onInteract }) {
               setRevealed(true);
             }}
           >
-            Показать
+            {t("nsfw.reveal")}
           </button>
         </div>
       )}

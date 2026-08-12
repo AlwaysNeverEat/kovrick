@@ -5,20 +5,20 @@ import "./BottomNav.css";
 export default function BottomNav() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentUsername, avatarFor } = useStore();
+  const { currentUsername, avatarFor, t } = useStore();
 
   function openComposer() {
     navigate("/create", { state: { backgroundLocation: location } });
   }
 
   return (
-    <nav className="bottom-nav" aria-label="Основная навигация">
+    <nav className="bottom-nav" aria-label={t("nav.main")}>
       <div className="bottom-nav__row">
         <NavLink
           to="/"
           end
           className={({ isActive }) => `bottom-nav__item${isActive ? " is-active" : ""}`}
-          aria-label="Лента"
+          aria-label={t("nav.feed")}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path
@@ -33,7 +33,7 @@ export default function BottomNav() {
         <NavLink
           to="/search"
           className={({ isActive }) => `bottom-nav__item${isActive ? " is-active" : ""}`}
-          aria-label="Поиск"
+          aria-label={t("nav.search")}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
@@ -41,7 +41,7 @@ export default function BottomNav() {
           </svg>
         </NavLink>
 
-        <button type="button" className="bottom-nav__item" onClick={openComposer} aria-label="Создать пост">
+        <button type="button" className="bottom-nav__item" onClick={openComposer} aria-label={t("nav.createPost")}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
           </svg>
@@ -50,7 +50,7 @@ export default function BottomNav() {
         <NavLink
           to={`/profile/${currentUsername}`}
           className={({ isActive }) => `bottom-nav__item${isActive ? " is-active" : ""}`}
-          aria-label="Профиль"
+          aria-label={t("nav.profile")}
         >
           <img className="bottom-nav__avatar" src={avatarFor(currentUsername)} alt="" />
         </NavLink>

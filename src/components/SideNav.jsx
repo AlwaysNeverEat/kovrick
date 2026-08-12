@@ -6,7 +6,7 @@ import "./SideNav.css";
 export default function SideNav() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentUsername } = useStore();
+  const { currentUsername, t } = useStore();
 
   return (
     <aside className="side-nav">
@@ -21,14 +21,14 @@ export default function SideNav() {
               strokeLinejoin="round"
             />
           </svg>
-          Лента
+          {t("nav.feed")}
         </NavLink>
         <NavLink to="/search" className={({ isActive }) => `side-nav__link${isActive ? " is-active" : ""}`}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
             <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
             <path d="M20 20L16.5 16.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
-          Поиск
+          {t("nav.search")}
         </NavLink>
         <NavLink
           to={`/profile/${currentUsername}`}
@@ -38,7 +38,7 @@ export default function SideNav() {
             <circle cx="12" cy="8" r="3.6" stroke="currentColor" strokeWidth="2" />
             <path d="M4.5 20C5.6 16.5 8.4 14.5 12 14.5C15.6 14.5 18.4 16.5 19.5 20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
-          Профиль
+          {t("nav.profile")}
         </NavLink>
       </nav>
 
@@ -47,10 +47,10 @@ export default function SideNav() {
         className="btn btn--primary btn--block"
         onClick={() => navigate("/create", { state: { backgroundLocation: location } })}
       >
-        Создать
+        {t("nav.create")}
       </button>
 
-      <p className="side-nav__footnote">визуальный прототип · без бэкенда</p>
+      <p className="side-nav__footnote">{t("nav.footnote")}</p>
     </aside>
   );
 }

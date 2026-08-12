@@ -7,7 +7,7 @@ import { extractTags } from "../utils/richText.jsx";
 import "./Search.css";
 
 export default function Search() {
-  const { posts, users, avatarFor } = useStore();
+  const { posts, users, avatarFor, t } = useStore();
   const [query, setQuery] = useState("");
   const q = query.trim().toLowerCase();
 
@@ -35,7 +35,7 @@ export default function Search() {
 
   return (
     <>
-      <Header title="Поиск" />
+      <Header title={t("search.title")} />
       <main className="search container">
         <div className="search__field-wrap">
           <svg className="search__icon" width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -45,7 +45,7 @@ export default function Search() {
           <input
             className="search__field"
             type="search"
-            placeholder="Искать по Коврику"
+            placeholder={t("search.placeholder")}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             autoFocus
@@ -54,9 +54,9 @@ export default function Search() {
 
         {!q ? (
           <section className="search__section">
-            <h2 className="search__title">Популярные теги</h2>
+            <h2 className="search__title">{t("search.popularTags")}</h2>
             {popularTags.length === 0 ? (
-              <p className="search__empty">Тегов пока нет.</p>
+              <p className="search__empty">{t("search.noTags")}</p>
             ) : (
               <ul className="search__tags">
                 {popularTags.map(([tag, count]) => (
@@ -73,9 +73,9 @@ export default function Search() {
         ) : (
           <>
             <section className="search__section">
-              <h2 className="search__title">Люди</h2>
+              <h2 className="search__title">{t("search.people")}</h2>
               {people.length === 0 ? (
-                <p className="search__empty">Никого не нашлось.</p>
+                <p className="search__empty">{t("search.noPeople")}</p>
               ) : (
                 <ul className="search__people">
                   {people.map((u) => (
@@ -94,9 +94,9 @@ export default function Search() {
             </section>
 
             <section className="search__section search__section--posts">
-              <h2 className="search__title">Посты</h2>
+              <h2 className="search__title">{t("search.posts")}</h2>
               {matchedPosts.length === 0 ? (
-                <p className="search__empty">Постов не нашлось.</p>
+                <p className="search__empty">{t("search.noPosts")}</p>
               ) : (
                 matchedPosts.map((post) => <PostCard key={post.id} post={post} />)
               )}

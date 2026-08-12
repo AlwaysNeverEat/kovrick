@@ -11,7 +11,7 @@ import "./PostPage.css";
 
 export default function PostPage() {
   const { id } = useParams();
-  const { getPost, getUser, avatarFor, getComments, addComment, currentUsername } = useStore();
+  const { getPost, getUser, avatarFor, getComments, addComment, currentUsername, lang, t } = useStore();
   const post = getPost(id);
   const [draft, setDraft] = useState("");
   const commentInputRef = useRef(null);
@@ -31,7 +31,7 @@ export default function PostPage() {
 
   return (
     <>
-      <Header title="Пост" showBack />
+      <Header title={t("post.title")} showBack />
       <main className="post-page container">
         <article className="post-page__post">
           <Link to={`/profile/${post.username}`} className="post-page__who">
@@ -49,7 +49,7 @@ export default function PostPage() {
           {post.image && <PostMedia image={post.image} nsfw={post.nsfw} />}
 
           <time className="post-page__time" dateTime={post.createdAt}>
-            {timeAgoLong(post.createdAt)}
+            {timeAgoLong(post.createdAt, lang)}
           </time>
 
           <div className="post-page__actions">
@@ -57,8 +57,8 @@ export default function PostPage() {
           </div>
         </article>
 
-        <section className="post-page__comments" aria-label="Комментарии">
-          <h2 className="post-page__comments-title">Комментарии · {comments.length}</h2>
+        <section className="post-page__comments" aria-label={t("post.commentsTitle")}>
+          <h2 className="post-page__comments-title">{t("post.commentsTitle")} · {comments.length}</h2>
           {comments.map((c) => {
             const cu = getUser(c.username);
             return (
@@ -68,7 +68,7 @@ export default function PostPage() {
                   <div className="comment__meta">
                     <span className="comment__name">{cu?.name || c.username}</span>
                     <time className="comment__time" dateTime={c.createdAt}>
-                      {timeAgo(c.createdAt)}
+                      {timeAgo(c.createdAt, lang)}
                     </time>
                   </div>
                   <p className="comment__text">{renderRichText(c.text)}</p>
@@ -83,13 +83,13 @@ export default function PostPage() {
           <input
             ref={commentInputRef}
             className="comment-form__input"
-            placeholder="Комментарий…"
+            placeholder={t("post.commentPlaceholder")}
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            aria-label="Новый комментарий"
+            aria-label={t("post.newCommentAria")}
           />
           <button type="submit" className="btn btn--primary comment-form__submit" disabled={!draft.trim()}>
-            Отправить
+            {t("post.commentSubmit")}
           </button>
         </form>
       </main>

@@ -6,7 +6,7 @@ import { useStore } from "../context/StoreContext.jsx";
 import "./Feed.css";
 
 export default function Feed() {
-  const { posts, currentUsername } = useStore();
+  const { posts, currentUsername, t } = useStore();
   const [highlightId, setHighlightId] = useState(null);
   const prevTopId = useRef(posts[0]?.id);
   const mounted = useRef(false);
@@ -22,8 +22,8 @@ export default function Feed() {
       window.scrollTo({ top: 0, behavior: "auto" });
       setHighlightId(top.id);
       prevTopId.current = top.id;
-      const t = setTimeout(() => setHighlightId(null), 1600);
-      return () => clearTimeout(t);
+      const timer = setTimeout(() => setHighlightId(null), 1600);
+      return () => clearTimeout(timer);
     }
     prevTopId.current = top?.id;
     return undefined;
@@ -43,7 +43,7 @@ export default function Feed() {
 
   return (
     <>
-      <Header desktopTitle="Лента" />
+      <Header desktopTitle={t("nav.feed")} />
       <main className="feed container">
         <InlineComposer />
         {entries.map((entry) => (
@@ -54,7 +54,7 @@ export default function Feed() {
             highlighted={!entry.repostedBy && entry.post.id === highlightId}
           />
         ))}
-        <p className="feed__end">Это весь коврик на сегодня 🧶</p>
+        <p className="feed__end">{t("feed.end")}</p>
       </main>
     </>
   );

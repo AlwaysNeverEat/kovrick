@@ -17,13 +17,6 @@
   margin-bottom: 18px;
 }
 
-.welcome__title {
-  font-family: var(--font-body);
-  font-size: 21px;
-  font-weight: 800;
-  margin: 0 0 8px;
-}
-
 .welcome__subtitle {
   font-family: var(--font-body);
   font-size: 13.5px;
@@ -34,8 +27,4 @@
 
 .welcome .profile-form {
   text-align: left;
-}
-
-.welcome__demo {
-  margin-top: 12px;
 }

@@ -4,7 +4,7 @@ import { useStore } from "../context/StoreContext.jsx";
 const MAX_LENGTH = 500;
 
 export default function useComposerDraft({ quotedPostId = null, onPublished } = {}) {
-  const { addPost, showToast } = useStore();
+  const { addPost, showToast, t } = useStore();
   const fileRef = useRef(null);
   const textRef = useRef(null);
   const [text, setText] = useState("");
@@ -35,7 +35,7 @@ export default function useComposerDraft({ quotedPostId = null, onPublished } = 
     e.preventDefault();
     if (!canPublish) return;
     addPost({ text: text.trim(), image: preview, quotedPostId });
-    showToast("Пост опубликован");
+    showToast(t("toast.published"));
     reset();
     onPublished?.();
   }

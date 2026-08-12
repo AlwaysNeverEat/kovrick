@@ -4,10 +4,35 @@ import Header from "../components/Header.jsx";
 import { useStore } from "../context/StoreContext.jsx";
 import "./Profile.css";
 
+function GearIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.8" />
+      <path
+        d="M19.4 13.5c.04-.33.06-.66.06-1s-.02-.67-.06-1l2.1-1.65a.5.5 0 0 0 .12-.64l-2-3.46a.5.5 0 0 0-.6-.22l-2.48 1a7.4 7.4 0 0 0-1.73-1L14.4 2.5a.5.5 0 0 0-.5-.42h-4a.5.5 0 0 0-.5.42l-.35 2.53a7.4 7.4 0 0 0-1.73 1l-2.48-1a.5.5 0 0 0-.6.22l-2 3.46a.5.5 0 0 0 .12.64L4.5 11.5c-.04.33-.06.66-.06 1s.02.67.06 1l-2.1 1.65a.5.5 0 0 0-.12.64l2 3.46a.5.5 0 0 0 .6.22l2.48-1c.53.43 1.11.77 1.73 1l.35 2.53a.5.5 0 0 0 .5.42h4a.5.5 0 0 0 .5-.42l.35-2.53a7.4 7.4 0 0 0 1.73-1l2.48 1a.5.5 0 0 0 .6-.22l2-3.46a.5.5 0 0 0-.12-.64L19.4 13.5Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function RepostBadgeIcon() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+      <path d="M7 7H15C16.66 7 18 8.34 18 10V13" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M9.4 4.4L7 7L9.4 9.6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M17 17H9C7.34 17 6 15.66 6 14V11" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M14.6 19.6L17 17L14.6 14.4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export default function Profile() {
   const { username } = useParams();
   const navigate = useNavigate();
-  const { posts, getUser, avatarFor, currentUsername } = useStore();
+  const { posts, getUser, avatarFor, currentUsername, lang, t } = useStore();
   const [following, setFollowing] = useState(false);
 
   const user = getUser(username);
@@ -28,9 +53,27 @@ export default function Profile() {
 
   if (!user) return <Navigate to="/" replace />;
 
+  const joinedLabel = user.joinedAt ? t("profile.joinedNow") : user.joined;
+  const localeTag = lang === "en" ? "en-US" : "ru-RU";
+
   return (
     <>
-      <Header title={user.name} showBack />
+      <Header
+        title={user.name}
+        showBack
+        right={
+          isSelf && (
+            <button
+              type="button"
+              className="profile__settings-btn"
+              onClick={() => navigate("/settings")}
+              aria-label={t("profile.openSettings")}
+            >
+              <GearIcon />
+            </button>
+          )
+        }
+      />
       <main className="profile container">
         <section className="profile__card">
           <img className="profile__avatar" src={avatarFor(username)} alt="" />
@@ -41,28 +84,28 @@ export default function Profile() {
           <dl className="profile__meta">
             {user.location && (
               <div>
-                <dt>Место</dt>
+                <dt>{t("profile.location")}</dt>
                 <dd>{user.location}</dd>
               </div>
             )}
             <div>
-              <dt>С нами</dt>
-              <dd>{user.joined}</dd>
+              <dt>{t("profile.joined")}</dt>
+              <dd>{joinedLabel}</dd>
             </div>
           </dl>
 
           <div className="profile__stats">
             <div>
               <strong>{ownPosts.length}</strong>
-              <span>постов</span>
+              <span>{t("profile.posts")}</span>
             </div>
             <div>
-              <strong>{user.followers.toLocaleString("ru-RU")}</strong>
-              <span>подписчиков</span>
+              <strong>{user.followers.toLocaleString(localeTag)}</strong>
+              <span>{t("profile.followers")}</span>
             </div>
             <div>
-              <strong>{user.following.toLocaleString("ru-RU")}</strong>
-              <span>подписок</span>
+              <strong>{user.following.toLocaleString(localeTag)}</strong>
+              <span>{t("profile.following")}</span>
             </div>
           </div>
 
@@ -72,7 +115,7 @@ export default function Profile() {
               className="btn btn--outline btn--block"
               onClick={() => navigate("/settings/profile")}
             >
-              Редактировать профиль
+              {t("profile.editProfile")}
             </button>
           ) : (
             <button
@@ -81,14 +124,14 @@ export default function Profile() {
               onClick={() => setFollowing((v) => !v)}
               aria-pressed={following}
             >
-              {following ? "Вы подписаны" : "Подписаться"}
+              {following ? t("profile.followingBtn") : t("profile.follow")}
             </button>
           )}
         </section>
 
-        <h3 className="profile__grid-title">Коврик из постов</h3>
+        <h3 className="profile__grid-title">{t("profile.gridTitle")}</h3>
         {gridEntries.length === 0 ? (
-          <p className="profile__empty">Пока пусто — первый пост впереди.</p>
+          <p className="profile__empty">{t("profile.empty")}</p>
         ) : (
           <div className="profile__grid">
             {gridEntries.map((entry) => {
@@ -99,7 +142,7 @@ export default function Profile() {
                   type="button"
                   className="profile__tile"
                   onClick={() => navigate(`/post/${p.id}`)}
-                  aria-label={p.text?.slice(0, 40) || "Пост"}
+                  aria-label={p.text?.slice(0, 40) || t("post.title")}
                 >
                   {p.image ? (
                     <img src={p.image} alt="" loading="lazy" className={p.nsfw ? "is-blurred" : ""} />
@@ -110,13 +153,8 @@ export default function Profile() {
                   )}
                   {p.nsfw && <span className="profile__tile-badge">18+</span>}
                   {entry.isRepost && (
-                    <span className="profile__tile-repost" title="Репост" aria-label="Репост">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-                        <path d="M7 7H15C16.66 7 18 8.34 18 10V13" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-                        <path d="M9.4 4.4L7 7L9.4 9.6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M17 17H9C7.34 17 6 15.66 6 14V11" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-                        <path d="M14.6 19.6L17 17L14.6 14.4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                    <span className="profile__tile-repost" title={t("profile.repostBadge")} aria-label={t("profile.repostBadge")}>
+                      <RepostBadgeIcon />
                     </span>
                   )}
                 </button>

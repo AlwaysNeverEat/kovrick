@@ -8,7 +8,7 @@ import "./Feed.css";
 
 export default function TagPage() {
   const { tag } = useParams();
-  const { posts } = useStore();
+  const { posts, t } = useStore();
   const normalized = (tag || "").toLowerCase();
 
   const tagged = useMemo(
@@ -23,7 +23,7 @@ export default function TagPage() {
       <Header title={`#${normalized}`} showBack />
       <main className="feed container">
         {tagged.length === 0 ? (
-          <p className="feed__end">Постов с #{normalized} пока нет.</p>
+          <p className="feed__end">{t("tag.empty", { tag: normalized })}</p>
         ) : (
           tagged.map((post) => <PostCard key={post.id} post={post} />)
         )}

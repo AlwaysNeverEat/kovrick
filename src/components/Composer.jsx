@@ -8,7 +8,7 @@ import "./Composer.css";
 export default function Composer() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentUsername, avatarFor } = useStore();
+  const { currentUsername, avatarFor, t } = useStore();
   const backgroundLocation = location.state?.backgroundLocation || { pathname: "/" };
   const quotedPostId = location.state?.quotedPostId || null;
 
@@ -44,11 +44,11 @@ export default function Composer() {
         className="composer"
         role="dialog"
         aria-modal="true"
-        aria-label={quotedPostId ? "Цитата" : "Новый пост"}
+        aria-label={quotedPostId ? t("composer.quoteDialog") : t("composer.newPost")}
         onClick={(e) => e.stopPropagation()}
       >
         <header className="composer__header">
-          <button type="button" className="composer__close" onClick={close} aria-label="Закрыть">
+          <button type="button" className="composer__close" onClick={close} aria-label={t("composer.close")}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <path d="M5 5L19 19M19 5L5 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
@@ -60,7 +60,7 @@ export default function Composer() {
             className="btn btn--primary composer__submit"
             disabled={!canPublish}
           >
-            Опубликовать
+            {t("composer.publish")}
           </button>
         </header>
 
@@ -70,7 +70,7 @@ export default function Composer() {
             <textarea
               ref={textRef}
               className="composer__text"
-              placeholder="Что постелить на ленту сегодня?"
+              placeholder={t("composer.placeholder")}
               value={text}
               onChange={(e) => setText(e.target.value)}
               rows={4}
@@ -86,12 +86,12 @@ export default function Composer() {
 
           {preview && (
             <div className="composer__preview">
-              <img src={preview} alt="Предпросмотр" />
+              <img src={preview} alt={t("composer.previewAlt")} />
               <button
                 type="button"
                 className="composer__remove"
                 onClick={draft.clearPreview}
-                aria-label="Удалить фото"
+                aria-label={t("composer.removePhoto")}
               >
                 ✕
               </button>
@@ -99,7 +99,7 @@ export default function Composer() {
           )}
 
           <div className="composer__toolbar">
-            <label className="composer__photo-btn" aria-label="Добавить фото">
+            <label className="composer__photo-btn" aria-label={t("composer.addPhoto")}>
               <input ref={fileRef} type="file" accept="image/*" onChange={draft.handleFile} className="visually-hidden" />
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path
@@ -115,7 +115,7 @@ export default function Composer() {
             </label>
             <span className="composer__counter">{text.length}/{maxLength}</span>
           </div>
-          <p className="composer__note">Это прототип: пост появится только у вас в браузере, никуда не отправляется.</p>
+          <p className="composer__note">{t("composer.note")}</p>
         </form>
       </div>
     </div>

@@ -2,8 +2,3 @@
   flex: 1;
   padding: 20px 16px calc(28px + var(--nav-total));
 }
-
-.edit-profile__logout {
-  margin-top: 4px;
-  color: var(--accent);
-}

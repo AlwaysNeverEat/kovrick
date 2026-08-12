@@ -6,37 +6,22 @@ import "./EditProfile.css";
 
 export default function EditProfile() {
   const navigate = useNavigate();
-  const { users, currentUsername, getUser, updateProfile, logout, showToast } = useStore();
+  const { currentUsername, getUser, updateProfile, showToast, t } = useStore();
   const me = getUser(currentUsername);
 
   if (!me) return null;
 
   function handleSubmit(values) {
     updateProfile(values);
-    showToast("Профиль обновлён");
+    showToast(t("toast.profileUpdated"));
     navigate(`/profile/${values.username}`, { replace: true });
-  }
-
-  function handleLogout() {
-    logout();
-    navigate("/", { replace: true });
   }
 
   return (
     <>
-      <Header title="Редактировать профиль" showBack />
+      <Header title={t("profile.editProfile")} showBack />
       <main className="edit-profile container">
-        <ProfileForm
-          initialValues={me}
-          submitLabel="Сохранить"
-          onSubmit={handleSubmit}
-          isUsernameTaken={(u) => Boolean(users[u]) && u !== currentUsername}
-          extra={
-            <button type="button" className="btn btn--ghost btn--block edit-profile__logout" onClick={handleLogout}>
-              Выйти
-            </button>
-          }
-        />
+        <ProfileForm initialValues={me} submitLabel={t("profileForm.save")} onSubmit={handleSubmit} />
       </main>
     </>
   );

@@ -3,6 +3,22 @@
   padding-bottom: calc(28px + var(--nav-total));
 }
 
+.profile__settings-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile__settings-btn:hover {
+  background: var(--bg-elevated);
+}
+
 .profile__card {
   padding: 16px;
   border-bottom: 1px solid var(--line);

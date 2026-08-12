@@ -1,11 +1,9 @@
-import { useMemo } from "react";
+import { useStore } from "../context/StoreContext.jsx";
 import "./Logo.css";
 
 export default function Logo({ size = "md", as: Tag = "span" }) {
-  const label = useMemo(() => {
-    const lang = (navigator.language || "en").toLowerCase();
-    return lang.startsWith("ru") ? "Коврик" : "Kovrick";
-  }, []);
+  const { t } = useStore();
+  const label = t("brand.name");
 
   return (
     <Tag className={`logo logo--${size}`}>

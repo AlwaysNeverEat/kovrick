@@ -4,12 +4,49 @@
   gap: 14px;
 }
 
+.profile-form__avatar-wrap {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 4px;
+}
+
 .profile-form__avatar {
   width: 64px;
   height: 64px;
   border-radius: 50%;
   object-fit: cover;
-  margin: 0 auto 4px;
+  background: var(--bg-elevated);
+}
+
+.profile-form__avatar-edit {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: var(--bg);
+  border: 2px solid var(--bg-raised);
+  cursor: pointer;
+}
+
+.profile-form__avatar-remove {
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
 }
 
 .profile-form__field {

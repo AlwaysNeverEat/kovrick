@@ -4,7 +4,7 @@ import useComposerDraft from "./useComposerDraft.js";
 import "./InlineComposer.css";
 
 export default function InlineComposer() {
-  const { currentUsername, avatarFor } = useStore();
+  const { currentUsername, avatarFor, t } = useStore();
   const formRef = useRef(null);
   const draft = useComposerDraft();
   const { fileRef, textRef, text, setText, preview, canPublish, maxLength } = draft;
@@ -28,7 +28,7 @@ export default function InlineComposer() {
       ref={formRef}
       className={`inline-composer${canPublish ? " is-active" : ""}`}
       onSubmit={draft.publish}
-      aria-label="Новый пост"
+      aria-label={t("composer.newPost")}
     >
       <img className="inline-composer__avatar" src={avatarFor(currentUsername)} alt="" />
 
@@ -36,7 +36,7 @@ export default function InlineComposer() {
         <textarea
           ref={textRef}
           className="inline-composer__text"
-          placeholder="Что постелить на ленту сегодня?"
+          placeholder={t("composer.placeholder")}
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -46,12 +46,12 @@ export default function InlineComposer() {
 
         {preview && (
           <div className="inline-composer__preview">
-            <img src={preview} alt="Предпросмотр" />
+            <img src={preview} alt={t("composer.previewAlt")} />
             <button
               type="button"
               className="inline-composer__remove"
               onClick={draft.clearPreview}
-              aria-label="Удалить фото"
+              aria-label={t("composer.removePhoto")}
             >
               ✕
             </button>
@@ -59,7 +59,7 @@ export default function InlineComposer() {
         )}
 
         <div className="inline-composer__toolbar">
-          <label className="inline-composer__photo-btn" aria-label="Добавить фото">
+          <label className="inline-composer__photo-btn" aria-label={t("composer.addPhoto")}>
             <input
               ref={fileRef}
               type="file"
@@ -83,7 +83,7 @@ export default function InlineComposer() {
           <span className="inline-composer__end">
             {canPublish && <span className="inline-composer__counter">{text.length}/{maxLength}</span>}
             <button type="submit" className="btn btn--primary inline-composer__submit" disabled={!canPublish}>
-              Опубликовать
+              {t("composer.publish")}
             </button>
           </span>
         </div>
