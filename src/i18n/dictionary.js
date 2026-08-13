@@ -15,11 +15,11 @@ export const translations = {
 
     "header.back": "Назад",
 
-    "feed.end": "Это весь коврик на сегодня 🧶",
+    "feed.end": "На сегодня это всё ✨",
 
     "composer.newPost": "Новый пост",
     "composer.quoteDialog": "Цитата",
-    "composer.placeholder": "Что постелить на ленту сегодня?",
+    "composer.placeholder": "Что нового?",
     "composer.previewAlt": "Предпросмотр",
     "composer.addPhoto": "Добавить фото",
     "composer.removePhoto": "Удалить фото",
@@ -58,7 +58,7 @@ export const translations = {
     "profile.editProfile": "Редактировать профиль",
     "profile.follow": "Подписаться",
     "profile.followingBtn": "Вы подписаны",
-    "profile.gridTitle": "Коврик из постов",
+    "profile.gridTitle": "Посты",
     "profile.empty": "Пока пусто — первый пост впереди.",
     "profile.repostBadge": "Репост",
     "profile.openSettings": "Настройки",
@@ -122,11 +122,11 @@ export const translations = {
 
     "header.back": "Back",
 
-    "feed.end": "That's the whole rug for today 🧶",
+    "feed.end": "That's everything for today ✨",
 
     "composer.newPost": "New post",
     "composer.quoteDialog": "Quote",
-    "composer.placeholder": "What's on the rug today?",
+    "composer.placeholder": "What's new?",
     "composer.previewAlt": "Preview",
     "composer.addPhoto": "Add photo",
     "composer.removePhoto": "Remove photo",
@@ -165,7 +165,7 @@ export const translations = {
     "profile.editProfile": "Edit profile",
     "profile.follow": "Follow",
     "profile.followingBtn": "Following",
-    "profile.gridTitle": "Rug of posts",
+    "profile.gridTitle": "Posts",
     "profile.empty": "Nothing here yet — the first post is coming.",
     "profile.repostBadge": "Repost",
     "profile.openSettings": "Settings",
