@@ -86,6 +86,8 @@ export const translations = {
     "notifications.likeOne": "{name} оценил(а) ваш пост",
     "notifications.likeMany": "{name} и ещё {rest} оценили ваш пост",
     "notifications.commentLead": "{name} прокомментировал(а) ваш пост",
+    "notifications.alsoLikes": "+{count} лайков",
+    "notifications.alsoComments": "+{count} комментариев",
 
     "welcome.subtitle": "Это визуальный прототип без бэкенда. Заполните анкету, чтобы посмотреть, как выглядит своя лента и профиль.",
 
@@ -200,6 +202,8 @@ export const translations = {
     "notifications.likeOne": "{name} liked your post",
     "notifications.likeMany": "{name} and {rest} others liked your post",
     "notifications.commentLead": "{name} commented on your post",
+    "notifications.alsoLikes": "+{count} likes",
+    "notifications.alsoComments": "+{count} comments",
 
     "welcome.subtitle": "This is a visual prototype with no backend. Fill in the form to see what your own feed and profile look like.",
 

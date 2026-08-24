@@ -38,24 +38,31 @@ export default function Notifications() {
         ) : (
           <ul className="notifications__list">
             {notifications.map((n) => {
-              const user = getUser(n.fromUsername);
-              const name = user?.name || n.fromUsername;
+              const user = getUser(n.lastFromUsername);
+              const name = user?.name || n.lastFromUsername;
+              const isLike = n.lastType === "like";
               return (
                 <li key={n.id} className={`notification${n.read ? "" : " is-unread"}`}>
                   <Link to={`/post/${n.postId}`} className="notification__row">
-                    <span className={`notification__glyph notification__glyph--${n.type}`}>
-                      {n.type === "like" ? <HeartGlyph /> : <CommentGlyph />}
+                    <span className={`notification__glyph notification__glyph--${n.lastType}`}>
+                      {isLike ? <HeartGlyph /> : <CommentGlyph />}
                     </span>
-                    <img className="notification__avatar" src={avatarFor(n.fromUsername)} alt="" />
+                    <img className="notification__avatar" src={avatarFor(n.lastFromUsername)} alt="" />
                     <div className="notification__body">
                       <p className="notification__text">
-                        {n.type === "like"
-                          ? n.count > 1
-                            ? t("notifications.likeMany", { name, rest: formatCount(n.count - 1, lang) })
+                        {isLike
+                          ? n.likeCount > 1
+                            ? t("notifications.likeMany", { name, rest: formatCount(n.likeCount - 1, lang) })
                             : t("notifications.likeOne", { name })
                           : t("notifications.commentLead", { name })}
                       </p>
-                      {n.type === "comment" && <p className="notification__quote">«{n.text}»</p>}
+                      {!isLike && <p className="notification__quote">«{n.lastText}»</p>}
+                      {isLike && n.commentCount > 0 && (
+                        <p className="notification__extra">{t("notifications.alsoComments", { count: formatCount(n.commentCount, lang) })}</p>
+                      )}
+                      {!isLike && n.likeCount > 0 && (
+                        <p className="notification__extra">{t("notifications.alsoLikes", { count: formatCount(n.likeCount, lang) })}</p>
+                      )}
                       <time className="notification__time" dateTime={n.createdAt}>
                         {timeAgo(n.createdAt, lang)}
                       </time>

@@ -84,6 +84,13 @@
   overflow-wrap: break-word;
 }
 
+.notification__extra {
+  font-family: var(--font-meta);
+  font-size: 11px;
+  color: var(--ink-faint);
+  margin: 3px 0 0;
+}
+
 .notification__time {
   display: block;
   font-family: var(--font-meta);

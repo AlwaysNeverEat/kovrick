@@ -20,7 +20,6 @@ function loadLang() {
 
 let nextPostId = 1000;
 let nextCommentId = 1000;
-let nextNotifId = 1000;
 
 function randomInt(min, max) {
   return min + Math.floor(Math.random() * (max - min + 1));
@@ -153,38 +152,41 @@ export function StoreProvider({ children }) {
     return pool[randomInt(0, pool.length - 1)];
   }, [users, currentUsername]);
 
-  const pushLikeNotification = useCallback((postId, fromUsername, addedCount) => {
+  // One notification card per post — a fresh comment or another batch of
+  // likes updates the same card instead of piling up separate entries, so
+  // the unread count tracks how many posts have news, not how many
+  // individual reactions landed.
+  const pushPostNotification = useCallback((postId, { type, fromUsername, count = 0, text = null }) => {
     setNotifications((prev) => {
-      const idx = prev.findIndex((n) => n.type === "like" && n.postId === postId);
+      const idx = prev.findIndex((n) => n.postId === postId);
       const at = new Date().toISOString();
       if (idx !== -1) {
-        const merged = { ...prev[idx], count: prev[idx].count + addedCount, fromUsername, createdAt: at, read: false };
-        return [merged, ...prev.slice(0, idx), ...prev.slice(idx + 1)].slice(0, 60);
+        const existing = prev[idx];
+        const merged = {
+          ...existing,
+          likeCount: existing.likeCount + (type === "like" ? count : 0),
+          commentCount: existing.commentCount + (type === "comment" ? 1 : 0),
+          lastType: type,
+          lastFromUsername: fromUsername,
+          lastText: type === "comment" ? text : existing.lastText,
+          createdAt: at,
+          read: false,
+        };
+        return [merged, ...prev.slice(0, idx), ...prev.slice(idx + 1)];
       }
       const notif = {
-        id: `notif-like-${postId}`,
-        type: "like",
+        id: `notif-${postId}`,
         postId,
-        count: addedCount,
-        fromUsername,
+        likeCount: type === "like" ? count : 0,
+        commentCount: type === "comment" ? 1 : 0,
+        lastType: type,
+        lastFromUsername: fromUsername,
+        lastText: type === "comment" ? text : null,
         createdAt: at,
         read: false,
       };
-      return [notif, ...prev].slice(0, 60);
+      return [notif, ...prev];
     });
-  }, []);
-
-  const pushCommentNotification = useCallback((postId, fromUsername, text) => {
-    const notif = {
-      id: `notif-comment-${nextNotifId++}`,
-      type: "comment",
-      postId,
-      fromUsername,
-      text,
-      createdAt: new Date().toISOString(),
-      read: false,
-    };
-    setNotifications((prev) => [notif, ...prev].slice(0, 60));
   }, []);
 
   const markAllNotificationsRead = useCallback(() => {
@@ -218,7 +220,7 @@ export function StoreProvider({ children }) {
           const burst = sent < target * 0.4;
           const batch = Math.min(target - sent, randomInt(1, burst ? 6 : 3));
           sent += batch;
-          if (bumpLikes(batch)) pushLikeNotification(postId, pickRandomOtherUser(), batch);
+          if (bumpLikes(batch)) pushPostNotification(postId, { type: "like", fromUsername: pickRandomOtherUser(), count: batch });
           const delay = burst ? randomInt(300, 1000) : randomInt(900, 3500);
           if (sent < target) setTimeout(tick, delay);
         };
@@ -243,7 +245,7 @@ export function StoreProvider({ children }) {
           });
           if (applied) {
             setComments((prev) => ({ ...prev, [postId]: [...(prev[postId] || []), comment] }));
-            pushCommentNotification(postId, fromUsername, text);
+            pushPostNotification(postId, { type: "comment", fromUsername, text });
           }
           if (sent < target) setTimeout(tick, randomInt(4000, 20000));
         };
@@ -253,7 +255,7 @@ export function StoreProvider({ children }) {
       scheduleLikes();
       scheduleComments();
     },
-    [lang, pickRandomOtherUser, pushLikeNotification, pushCommentNotification]
+    [lang, pickRandomOtherUser, pushPostNotification]
   );
 
   const addPost = useCallback(
@@ -292,6 +294,7 @@ export function StoreProvider({ children }) {
       delete next[id];
       return next;
     });
+    setNotifications((prev) => prev.filter((n) => n.postId !== id));
   }, []);
 
   const addComment = useCallback(
