@@ -51,13 +51,22 @@
 
   .side-nav__badge {
     position: absolute;
-    top: -2px;
-    right: -2px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
+    top: -8px;
+    right: -12px;
+    min-width: 18px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: var(--accent);
+    color: var(--accent-ink);
     border: 2px solid var(--bg);
+    font-family: var(--font-meta);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
   }
 
   .side-nav__footnote {

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useStore } from "../context/StoreContext.jsx";
+import { formatCount } from "../utils/format.js";
 import "./PostActions.css";
 
 function HeartIcon({ filled }) {
@@ -57,7 +58,7 @@ function stop(e) {
 export default function PostActions({ post, size = "sm", onComment }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentUsername, toggleLike, toggleRepost, deletePost, showToast, t } = useStore();
+  const { currentUsername, toggleLike, toggleRepost, deletePost, showToast, lang, t } = useStore();
   const [repostMenuOpen, setRepostMenuOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -111,7 +112,7 @@ export default function PostActions({ post, size = "sm", onComment }) {
         aria-pressed={post.liked}
       >
         <HeartIcon filled={post.liked} />
-        <span>{post.likes}</span>
+        <span>{formatCount(post.likes, lang)}</span>
       </button>
 
       <button
@@ -124,7 +125,7 @@ export default function PostActions({ post, size = "sm", onComment }) {
         }}
       >
         <CommentIcon />
-        <span>{post.comments}</span>
+        <span>{formatCount(post.comments, lang)}</span>
       </button>
 
       <div className="post-actions__menu-wrap" ref={repostRef}>
@@ -139,7 +140,7 @@ export default function PostActions({ post, size = "sm", onComment }) {
           aria-label={t("postActions.repost")}
         >
           <RepostIcon />
-          <span>{post.reposts}</span>
+          <span>{formatCount(post.reposts, lang)}</span>
         </button>
         {repostMenuOpen && (
           <div className="post-actions__dropdown" onClick={stop}>

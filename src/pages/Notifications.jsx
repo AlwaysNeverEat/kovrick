@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Header from "../components/Header.jsx";
 import { useStore } from "../context/StoreContext.jsx";
 import { timeAgo } from "../utils/time.js";
+import { formatCount } from "../utils/format.js";
 import "./Notifications.css";
 
 function HeartGlyph() {
@@ -50,7 +51,7 @@ export default function Notifications() {
                       <p className="notification__text">
                         {n.type === "like"
                           ? n.count > 1
-                            ? t("notifications.likeMany", { name, rest: n.count - 1 })
+                            ? t("notifications.likeMany", { name, rest: formatCount(n.count - 1, lang) })
                             : t("notifications.likeOne", { name })
                           : t("notifications.commentLead", { name })}
                       </p>
