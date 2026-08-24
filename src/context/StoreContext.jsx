@@ -152,10 +152,11 @@ export function StoreProvider({ children }) {
     return pool[randomInt(0, pool.length - 1)];
   }, [users, currentUsername]);
 
-  // One notification card per post — a fresh comment or another batch of
-  // likes updates the same card instead of piling up separate entries, so
-  // the unread count tracks how many posts have news, not how many
-  // individual reactions landed.
+  // One notification card per post, holding running totals plus a "seen"
+  // watermark for each metric. The badge sums (current - seen) across every
+  // card, so it grows as fresh likes/comments land and drops back to 0 the
+  // moment the notifications page is opened — without losing the running
+  // totals shown on the cards themselves.
   const pushPostNotification = useCallback((postId, { type, fromUsername, count = 0, text = null }) => {
     setNotifications((prev) => {
       const idx = prev.findIndex((n) => n.postId === postId);
@@ -170,7 +171,6 @@ export function StoreProvider({ children }) {
           lastFromUsername: fromUsername,
           lastText: type === "comment" ? text : existing.lastText,
           createdAt: at,
-          read: false,
         };
         return [merged, ...prev.slice(0, idx), ...prev.slice(idx + 1)];
       }
@@ -179,18 +179,19 @@ export function StoreProvider({ children }) {
         postId,
         likeCount: type === "like" ? count : 0,
         commentCount: type === "comment" ? 1 : 0,
+        seenLikes: 0,
+        seenComments: 0,
         lastType: type,
         lastFromUsername: fromUsername,
         lastText: type === "comment" ? text : null,
         createdAt: at,
-        read: false,
       };
       return [notif, ...prev];
     });
   }, []);
 
   const markAllNotificationsRead = useCallback(() => {
-    setNotifications((prev) => (prev.every((n) => n.read) ? prev : prev.map((n) => (n.read ? n : { ...n, read: true }))));
+    setNotifications((prev) => prev.map((n) => ({ ...n, seenLikes: n.likeCount, seenComments: n.commentCount })));
   }, []);
 
   // Simulates other people finding a freshly published post: likes trickle in
@@ -370,10 +371,15 @@ export function StoreProvider({ children }) {
 
   // Badge total: every like plus every comment across the user's own posts,
   // added together (post A at 200 likes + post B at 300 likes and 3 comments
-  // = 503) — not a count of notification cards or unread events.
+  // = 503), counting only what hasn't been seen yet — resets to 0 once
+  // markAllNotificationsRead runs (see the notifications page).
   const engagementCount = useMemo(
-    () => posts.filter((p) => p.username === currentUsername).reduce((sum, p) => sum + p.likes + p.comments, 0),
-    [posts, currentUsername]
+    () =>
+      notifications.reduce(
+        (sum, n) => sum + Math.max(0, n.likeCount - n.seenLikes) + Math.max(0, n.commentCount - n.seenComments),
+        0
+      ),
+    [notifications]
   );
 
   const value = useMemo(

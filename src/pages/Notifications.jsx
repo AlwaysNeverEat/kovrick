@@ -41,8 +41,9 @@ export default function Notifications() {
               const user = getUser(n.lastFromUsername);
               const name = user?.name || n.lastFromUsername;
               const isLike = n.lastType === "like";
+              const isUnread = n.likeCount > n.seenLikes || n.commentCount > n.seenComments;
               return (
-                <li key={n.id} className={`notification${n.read ? "" : " is-unread"}`}>
+                <li key={n.id} className={`notification${isUnread ? " is-unread" : ""}`}>
                   <Link to={`/post/${n.postId}`} className="notification__row">
                     <span className={`notification__glyph notification__glyph--${n.lastType}`}>
                       {isLike ? <HeartGlyph /> : <CommentGlyph />}
