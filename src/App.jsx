@@ -13,6 +13,7 @@ import TagPage from "./pages/TagPage.jsx";
 import Welcome from "./pages/Welcome.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
 import Settings from "./pages/Settings.jsx";
+import Notifications from "./pages/Notifications.jsx";
 import "./App.css";
 
 function AppShell() {
@@ -45,6 +46,7 @@ function AppShell() {
           <Route path="/profile/:username" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/settings/profile" element={<EditProfile />} />
+          <Route path="/notifications" element={<Notifications />} />
           <Route path="/search" element={<Search />} />
           <Route path="/tag/:tag" element={<TagPage />} />
           <Route path="*" element={<Feed />} />

@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
+import BellIcon from "./BellIcon.jsx";
 import { useStore } from "../context/StoreContext.jsx";
 import "./BottomNav.css";
 
 export default function BottomNav() {
-  const { t } = useStore();
+  const { unreadNotifications, t } = useStore();
 
   return (
     <nav className="bottom-nav" aria-label={t("nav.main")}>
@@ -33,6 +34,17 @@ export default function BottomNav() {
             <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="2" />
             <path d="M20 20L16.5 16.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
+        </NavLink>
+
+        <NavLink
+          to="/notifications"
+          className={({ isActive }) => `bottom-nav__item${isActive ? " is-active" : ""}`}
+          aria-label={t("nav.notifications")}
+        >
+          <span className="bottom-nav__icon-wrap">
+            <BellIcon size={24} />
+            {unreadNotifications > 0 && <span className="bottom-nav__badge" aria-hidden="true" />}
+          </span>
         </NavLink>
       </div>
     </nav>

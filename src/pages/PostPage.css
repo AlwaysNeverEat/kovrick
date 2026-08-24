@@ -154,6 +154,13 @@
   color: var(--ink);
 }
 
+/* Keeps the field at 16px below 900px so iOS doesn't auto-zoom on focus. */
+@media (max-width: 899px) {
+  .comment-form__input {
+    font-size: 16px;
+  }
+}
+
 .comment-form__submit {
   padding: 11px 14px;
   font-size: 10.5px;

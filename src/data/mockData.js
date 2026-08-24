@@ -213,3 +213,32 @@ export function commentsFor(postId) {
     createdAt: ago(c.hoursAgo),
   }));
 }
+
+// Canned reactions used to simulate other people commenting on a freshly
+// published post (see StoreContext#simulateEngagement) — not real user input.
+export const fakeReactionComments = {
+  ru: [
+    "🔥🔥🔥",
+    "Красиво!",
+    "Как это сделано?",
+    "Согласна на все 100",
+    "Сохранила себе",
+    "Обожаю!",
+    "Автор жжёт",
+    "Где это было?",
+    "+1",
+    "Ору, идеально",
+  ],
+  en: [
+    "🔥🔥🔥",
+    "Love this!",
+    "How did you do that?",
+    "100% agree",
+    "Saving this",
+    "Amazing!",
+    "So good",
+    "Where was this?",
+    "+1",
+    "Incredible",
+  ],
+};

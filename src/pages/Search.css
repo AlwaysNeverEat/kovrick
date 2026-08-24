@@ -121,3 +121,10 @@
   font-size: 11.5px;
   color: var(--ink-faint);
 }
+
+/* Keeps the field at 16px below 900px so iOS doesn't auto-zoom on focus. */
+@media (max-width: 899px) {
+  .search__field {
+    font-size: 16px;
+  }
+}

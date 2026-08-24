@@ -109,3 +109,12 @@
   color: var(--accent);
   font-size: 11px;
 }
+
+/* Keep these at 16px below 900px so iOS doesn't auto-zoom on focus. */
+@media (max-width: 899px) {
+  .profile-form__field input,
+  .profile-form__field textarea,
+  .profile-form__handle-wrap input {
+    font-size: 16px;
+  }
+}

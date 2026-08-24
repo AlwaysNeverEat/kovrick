@@ -44,6 +44,22 @@
     color: var(--ink);
   }
 
+  .side-nav__icon-wrap {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .side-nav__badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+
   .side-nav__footnote {
     margin-top: auto;
     font-family: var(--font-meta);

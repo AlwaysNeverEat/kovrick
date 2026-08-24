@@ -1,13 +1,14 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Logo from "./Logo.jsx";
 import GearIcon from "./GearIcon.jsx";
+import BellIcon from "./BellIcon.jsx";
 import { useStore } from "../context/StoreContext.jsx";
 import "./SideNav.css";
 
 export default function SideNav() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentUsername, t } = useStore();
+  const { currentUsername, unreadNotifications, t } = useStore();
 
   return (
     <aside className="side-nav">
@@ -30,6 +31,13 @@ export default function SideNav() {
             <path d="M20 20L16.5 16.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
           {t("nav.search")}
+        </NavLink>
+        <NavLink to="/notifications" className={({ isActive }) => `side-nav__link${isActive ? " is-active" : ""}`}>
+          <span className="side-nav__icon-wrap">
+            <BellIcon size={22} />
+            {unreadNotifications > 0 && <span className="side-nav__badge" aria-hidden="true" />}
+          </span>
+          {t("nav.notifications")}
         </NavLink>
         <NavLink
           to={`/profile/${currentUsername}`}

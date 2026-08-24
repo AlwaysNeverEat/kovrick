@@ -4,6 +4,7 @@ export const translations = {
 
     "nav.feed": "Лента",
     "nav.search": "Поиск",
+    "nav.notifications": "Уведомления",
     "nav.profile": "Профиль",
     "nav.settings": "Настройки",
     "nav.create": "Создать",
@@ -80,6 +81,12 @@ export const translations = {
 
     "tag.empty": "Постов с #{tag} пока нет.",
 
+    "notifications.title": "Уведомления",
+    "notifications.empty": "Пока тихо. Здесь появятся лайки и комментарии к вашим постам.",
+    "notifications.likeOne": "{name} оценил(а) ваш пост",
+    "notifications.likeMany": "{name} и ещё {rest} оценили ваш пост",
+    "notifications.commentLead": "{name} прокомментировал(а) ваш пост",
+
     "welcome.subtitle": "Это визуальный прототип без бэкенда. Заполните анкету, чтобы посмотреть, как выглядит своя лента и профиль.",
 
     "profileForm.register": "Зарегистрироваться",
@@ -111,6 +118,7 @@ export const translations = {
 
     "nav.feed": "Feed",
     "nav.search": "Search",
+    "nav.notifications": "Notifications",
     "nav.profile": "Profile",
     "nav.settings": "Settings",
     "nav.create": "Create",
@@ -186,6 +194,12 @@ export const translations = {
     "search.noPosts": "No posts found.",
 
     "tag.empty": "No posts with #{tag} yet.",
+
+    "notifications.title": "Notifications",
+    "notifications.empty": "Nothing yet. Likes and comments on your posts will show up here.",
+    "notifications.likeOne": "{name} liked your post",
+    "notifications.likeMany": "{name} and {rest} others liked your post",
+    "notifications.commentLead": "{name} commented on your post",
 
     "welcome.subtitle": "This is a visual prototype with no backend. Fill in the form to see what your own feed and profile look like.",
 
