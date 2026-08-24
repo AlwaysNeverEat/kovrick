@@ -5,7 +5,7 @@ import { formatCount } from "../utils/format.js";
 import "./BottomNav.css";
 
 export default function BottomNav() {
-  const { unreadNotifications, lang, t } = useStore();
+  const { engagementCount, lang, t } = useStore();
 
   return (
     <nav className="bottom-nav" aria-label={t("nav.main")}>
@@ -44,9 +44,9 @@ export default function BottomNav() {
         >
           <span className="bottom-nav__icon-wrap">
             <BellIcon size={24} />
-            {unreadNotifications > 0 && (
+            {engagementCount > 0 && (
               <span className="bottom-nav__badge" aria-hidden="true">
-                {formatCount(unreadNotifications, lang)}
+                {formatCount(engagementCount, lang)}
               </span>
             )}
           </span>

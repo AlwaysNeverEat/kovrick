@@ -9,7 +9,7 @@ import "./SideNav.css";
 export default function SideNav() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentUsername, unreadNotifications, lang, t } = useStore();
+  const { currentUsername, engagementCount, lang, t } = useStore();
 
   return (
     <aside className="side-nav">
@@ -36,9 +36,9 @@ export default function SideNav() {
         <NavLink to="/notifications" className={({ isActive }) => `side-nav__link${isActive ? " is-active" : ""}`}>
           <span className="side-nav__icon-wrap">
             <BellIcon size={22} />
-            {unreadNotifications > 0 && (
+            {engagementCount > 0 && (
               <span className="side-nav__badge" aria-hidden="true">
-                {formatCount(unreadNotifications, lang)}
+                {formatCount(engagementCount, lang)}
               </span>
             )}
           </span>

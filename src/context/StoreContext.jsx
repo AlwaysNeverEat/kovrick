@@ -368,7 +368,13 @@ export function StoreProvider({ children }) {
     [currentUsername]
   );
 
-  const unreadNotifications = useMemo(() => notifications.filter((n) => !n.read).length, [notifications]);
+  // Badge total: every like plus every comment across the user's own posts,
+  // added together (post A at 200 likes + post B at 300 likes and 3 comments
+  // = 503) — not a count of notification cards or unread events.
+  const engagementCount = useMemo(
+    () => posts.filter((p) => p.username === currentUsername).reduce((sum, p) => sum + p.likes + p.comments, 0),
+    [posts, currentUsername]
+  );
 
   const value = useMemo(
     () => ({
@@ -380,7 +386,7 @@ export function StoreProvider({ children }) {
       t,
       theme,
       notifications,
-      unreadNotifications,
+      engagementCount,
       getUser,
       avatarFor,
       getPost,
@@ -407,7 +413,7 @@ export function StoreProvider({ children }) {
       t,
       theme,
       notifications,
-      unreadNotifications,
+      engagementCount,
       getUser,
       avatarFor,
       getPost,
